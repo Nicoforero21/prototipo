@@ -22,13 +22,13 @@ export type DetectPlantSpeciesInput = z.infer<typeof DetectPlantSpeciesInputSche
 
 const DetectPlantSpeciesOutputSchema = z.object({
   speciesIdentification: z.object({
-    commonName: z.string().describe('The common name of the identified plant species.'),
-    latinName: z.string().describe('The Latin name of the identified plant species.'),
-    confidence: z.number().describe('Confidence level of the species identification (0-1).'),
+    commonName: z.string().describe('El nombre común en español de la especie de planta identificada.'),
+    latinName: z.string().describe('El nombre en latín de la especie de planta identificada.'),
+    confidence: z.number().describe('Nivel de confianza de la identificación de la especie (0-1).'),
   }),
   healthAssessment: z.object({
-    isHealthy: z.boolean().describe('Whether or not the plant appears healthy.'),
-    issues: z.string().describe('Description of any detected health issues or abnormalities.'),
+    isHealthy: z.boolean().describe('Si la planta parece estar sana o no.'),
+    issues: z.string().describe('Descripción en español de cualquier problema de salud, anormalidad o posible enfermedad detectada.'),
   }),
 });
 export type DetectPlantSpeciesOutput = z.infer<typeof DetectPlantSpeciesOutputSchema>;
@@ -41,21 +41,21 @@ const detectPlantSpeciesPrompt = ai.definePrompt({
   name: 'detectPlantSpeciesPrompt',
   input: {schema: DetectPlantSpeciesInputSchema},
   output: {schema: DetectPlantSpeciesOutputSchema},
-  prompt: `You are an expert botanist specializing in identifying plant species and assessing their health based on images.
+  prompt: `Eres un botánico experto especializado en identificar especies de plantas y evaluar su salud a partir de imágenes. Todas tus respuestas deben ser en español.
 
-  Analyze the provided image of the plant and provide the following information:
+  Analiza la imagen de la planta proporcionada y brinda la siguiente información:
 
-  1.  Species Identification:
-  *   Determine the common name and Latin name of the plant species.
-  *   Provide a confidence level (0-1) for the species identification.
+  1.  Identificación de la Especie:
+  *   Determina el nombre común en español y el nombre en latín de la especie de la planta.
+  *   Proporciona un nivel de confianza (0-1) para la identificación de la especie.
 
-  2.  Health Assessment:
-  *   Assess whether the plant appears healthy or not.
-  *   Describe any detected health issues, abnormalities, or potential diseases.
+  2.  Evaluación de Salud:
+  *   Evalúa si la planta parece estar sana o no.
+  *   Describe cualquier problema de salud, anormalidad o posible enfermedad detectada.
 
-  Reference the plant in the following photo: {{media url=photoDataUri}}.
+  Haz referencia a la planta en la siguiente foto: {{media url=photoDataUri}}.
 
-  Ensure that your response is well-structured and easy to understand.`,
+  Asegúrate de que tu respuesta esté bien estructurada y sea fácil de entender.`,
 });
 
 const detectPlantSpeciesFlow = ai.defineFlow(
