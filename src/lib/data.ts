@@ -1,0 +1,73 @@
+import type { Crop } from '@/types';
+
+export const mockCrops: Crop[] = [
+  {
+    name: 'Lechuga',
+    slug: 'lechuga',
+    latinName: 'Lactuca sativa',
+    shortDescription: 'Crujiente y refrescante, ideal para ensaladas rápidas y frescas.',
+    longDescription: 'La lechuga es una hortaliza de hoja verde que se cultiva por sus hojas tiernas y sabrosas. Es un cultivo de ciclo corto, perfecto para huertos urbanos y principiantes por su fácil manejo y rápido crecimiento.',
+    imageUrl: 'https://placehold.co/400x250.png',
+    aiHint: 'lettuce vegetable',
+    difficulty: 'Fácil',
+    lifecycle: ['Siembra', 'Germinación (5-10 días)', 'Crecimiento de hojas (30-40 días)', 'Cosecha'],
+    requirements: {
+      watering: 'Riego frecuente pero moderado, mantener el suelo húmedo.',
+      climate: 'Clima templado, evitar calor extremo (15-20°C).',
+      space: '20-30 cm entre plantas.',
+      pests: 'Pulgones, babosas y caracoles.',
+      fertilizers: 'Compost o abono rico en nitrógeno al inicio del cultivo.',
+    },
+    sowingGuide: {
+      pot: 'Macetas de al menos 20cm de profundidad. Usar sustrato ligero.',
+      soil: 'Siembra directa en surcos poco profundos, o en semilleros para trasplante.',
+      hydroponics: 'Excelente para sistemas NFT y de raíz flotante.',
+    },
+  },
+  {
+    name: 'Tomate',
+    slug: 'tomate',
+    latinName: 'Solanum lycopersicum',
+    shortDescription: 'Fruto jugoso y versátil, esencial en la cocina colombiana.',
+    longDescription: 'El tomate es una de las hortalizas más populares y cultivadas en el mundo. Requiere más cuidados que la lechuga, como tutores para sostener su crecimiento y podas regulares, pero la recompensa es una cosecha abundante y sabrosa.',
+    imageUrl: 'https://placehold.co/400x250.png',
+    aiHint: 'tomato plant',
+    difficulty: 'Media',
+    lifecycle: ['Siembra', 'Germinación (6-14 días)', 'Crecimiento vegetativo y floración (40-60 días)', 'Fructificación y maduración (60-90 días)', 'Cosecha'],
+     requirements: {
+      watering: 'Riego regular y profundo, especialmente durante la floración y fructificación. Evitar mojar las hojas.',
+      climate: 'Clima cálido y soleado, necesita al menos 6 horas de sol directo (21-29°C).',
+      space: '40-60 cm entre plantas, necesita tutores o jaulas.',
+      pests: 'Mosca blanca, araña roja, mildiu.',
+      fertilizers: 'Abono equilibrado rico en potasio y fósforo durante la floración.',
+    },
+    sowingGuide: {
+      pot: 'Macetas grandes, de mínimo 40cm de profundidad. Buen drenaje es crucial.',
+      soil: 'Trasplantar las plántulas cuando tengan 4-6 hojas verdaderas.',
+      hydroponics: 'Apto para sistemas de goteo con sustratos como fibra de coco o perlita.',
+    },
+  },
+  {
+    name: 'Maíz',
+    slug: 'maiz',
+    latinName: 'Zea mays',
+    shortDescription: 'Un pilar de la alimentación colombiana, desde arepas hasta mazamorra.',
+    longDescription: 'El maíz es un cultivo fundamental en la cultura y dieta de Colombia. Su cultivo a gran escala es complejo, pero es posible tener una pequeña plantación en un huerto grande, prestando atención a la polinización para obtener buenas mazorcas.',
+    imageUrl: 'https://placehold.co/400x250.png',
+    aiHint: 'corn field',
+    difficulty: 'Difícil',
+    lifecycle: ['Siembra', 'Germinación (7-10 días)', 'Crecimiento rápido (30-60 días)', 'Polinización y formación de mazorca (60-80 días)', 'Cosecha (90-120 días)'],
+    requirements: {
+      watering: 'Requiere mucha agua, especialmente durante la polinización y llenado de grano.',
+      climate: 'Clima cálido y mucho sol. Sensible a las heladas.',
+      space: 'Plantar en bloques (ej. 4x4) en lugar de una sola fila para asegurar la polinización por viento. 30-40 cm entre plantas.',
+      pests: 'Gusano cogollero, pájaros.',
+      fertilizers: 'Muy exigente en nitrógeno. Requiere abonado fuerte.',
+    },
+    sowingGuide: {
+      pot: 'No recomendado para macetas debido a su tamaño y necesidad de polinización cruzada.',
+      soil: 'Siembra directa en el suelo cuando la temperatura sea consistentemente cálida.',
+      hydroponics: 'No es una opción común o práctica para el cultivo de maíz.',
+    },
+  },
+];
