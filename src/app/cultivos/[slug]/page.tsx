@@ -63,7 +63,7 @@ export default function CropPage({ params }: { params: { slug: string } }) {
                         <Share2 className="mr-2 h-4 w-4" /> Compartir
                     </Button>
                      <Button variant="outline" asChild>
-                        <a href={`/pdf/${crop.slug}.pdf`} download>
+                        <a href={`/${crop.slug}.pdf`} download>
                             <Download className="mr-2 h-4 w-4" /> Descargar PDF
                         </a>
                     </Button>
