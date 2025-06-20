@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useState, useRef, useActionState } from 'react';
 import { detectPlantAction } from '@/lib/actions';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,7 @@ import { UploadCloud, CheckCircle, AlertTriangle, Leaf, HeartPulse, Scale } from
 export default function PlantDetector() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formState, formAction] = useFormState(detectPlantAction, undefined);
+  const [formState, formAction] = useActionState(detectPlantAction, undefined);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
