@@ -7,19 +7,19 @@ const resources = [
     title: 'Guía para Docentes: Mi Primera Huerta Escolar',
     description: 'Un manual completo para iniciar un proyecto de huerta en instituciones educativas de primaria y secundaria.',
     icon: <BookOpen className="h-12 w-12 text-primary" />,
-    file: '#',
+    file: '/recursos/guia-docentes-huerta.pdf',
   },
   {
     title: 'Proyecto de Aula: Cultivos por Temporada',
     description: 'Actividades y proyectos gamificados para enseñar sobre los ciclos de siembra y cosecha según la temporada.',
     icon: <Wind className="h-12 w-12 text-primary" />,
-    file: '#',
+    file: '/recursos/proyecto-cultivos-temporada.pdf',
   },
   {
     title: 'Mapa de Cultivos para Colorear',
     description: 'Recurso didáctico para que los más pequeños aprendan sobre la diversidad agrícola de las regiones de Colombia.',
     icon: <Map className="h-12 w-12 text-primary" />,
-    file: '#',
+    file: '/recursos/mapa-cultivos-colorear.pdf',
   },
 ];
 
