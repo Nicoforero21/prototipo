@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, Calendar, Droplets } from 'lucide-react';
 import { mockCrops } from '@/lib/data';
+import { Label } from '@/components/ui/label';
 
 // Mock tracked crops, in a real app this would come from a database
 const trackedCrops = [
