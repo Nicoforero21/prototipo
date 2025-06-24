@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { mockCrops } from '@/lib/data';
-import { ArrowRight, MapPin } from 'lucide-react';
-import { ColombiaMap } from '@/components/icons/colombia-map';
+import { ArrowRight } from 'lucide-react';
+import { InteractiveColombiaMap } from '@/components/interactive-colombia-map';
 
 export default function Home() {
   const difficultyColors = {
@@ -27,32 +27,10 @@ export default function Home() {
 
       <section className="py-12">
         <h2 className="text-3xl font-headline font-bold text-center mb-2">Mapa Interactivo de Cultivos</h2>
-        <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales por zona agroclimática en Colombia.</p>
+        <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales por departamento. Pasa el cursor sobre una región o un cultivo.</p>
         <Card className="overflow-hidden shadow-lg">
-          <CardContent className="p-4 bg-gray-100 flex flex-col md:flex-row items-center justify-center gap-8">
-            <div className="w-full md:w-2/3">
-              <ColombiaMap className="w-full h-auto" />
-            </div>
-            <div className="w-full md:w-1/3 flex flex-col items-start p-4">
-              <h3 className="text-xl font-bold mb-4 font-headline">Leyenda de Dificultad</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-green-500"></div>
-                  <span className="font-semibold">Fácil:</span><span>Ideal para principiantes.</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-yellow-500"></div>
-                  <span className="font-semibold">Media:</span><span>Requiere algo de experiencia.</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-red-500"></div>
-                   <span className="font-semibold">Difícil:</span><span>Para cultivadores expertos.</span>
-                </div>
-              </div>
-               <p className="text-sm text-muted-foreground mt-6 italic">
-                * Haz clic en un cultivo en el mapa para ver su ficha técnica detallada. (Funcionalidad en desarrollo)
-              </p>
-            </div>
+          <CardContent className="p-0">
+             <InteractiveColombiaMap />
           </CardContent>
         </Card>
       </section>
