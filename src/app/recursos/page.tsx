@@ -7,7 +7,7 @@ const resources = [
     title: 'Guía para Docentes: Mi Primera Huerta Escolar',
     description: 'Un manual completo para iniciar un proyecto de huerta en instituciones educativas de primaria y secundaria.',
     icon: <BookOpen className="h-12 w-12 text-primary" />,
-    file: '/Guia_Huerta_Escolar_Completa.pdf',
+    file: '/guia-huerta-escolar.pdf',
   },
   {
     title: 'Proyecto de Aula: Cultivos por Temporada',
