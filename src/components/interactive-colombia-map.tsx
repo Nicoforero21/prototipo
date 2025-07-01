@@ -33,6 +33,8 @@ const cropsOnMap = [
   },
 ];
 
+// The TopoJSON file is now a proper JSON file and needs to be parsed.
+// We use topojson-client library to extract the geographic features.
 const colombiaGeoJSON = topojson.feature(colombiaTopoJSON as any, colombiaTopoJSON.objects.COL_adm1 as any);
 
 export function InteractiveColombiaMap() {
