@@ -8,7 +8,8 @@ import {
   Marker,
 } from 'react-simple-maps';
 import Link from 'next/link';
-import { colombiaTopoJSON } from '@/lib/colombia-topo';
+import * as topojson from 'topojson-client';
+import colombiaTopoJSON from '@/lib/colombia-departments.json';
 import { useToast } from '@/hooks/use-toast';
 
 const cropsOnMap = [
@@ -31,6 +32,8 @@ const cropsOnMap = [
     emoji: '🌽',
   },
 ];
+
+const colombiaGeoJSON = topojson.feature(colombiaTopoJSON as any, colombiaTopoJSON.objects.COL_adm1 as any);
 
 export function InteractiveColombiaMap() {
   const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
@@ -58,15 +61,15 @@ export function InteractiveColombiaMap() {
             }
         }}
       >
-        <Geographies geography={colombiaTopoJSON}>
+        <Geographies geography={colombiaGeoJSON}>
           {({ geographies }) =>
             geographies.map((geo) => (
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                onClick={() => handleDepartmentClick(geo.properties.name)}
+                onClick={() => handleDepartmentClick(geo.properties.NAME_1)}
                 onMouseEnter={(e) => {
-                  const { name } = geo.properties;
+                  const { NAME_1: name } = geo.properties;
                   setTooltip({ content: name, x: e.clientX, y: e.clientY });
                 }}
                 onMouseLeave={() => {
