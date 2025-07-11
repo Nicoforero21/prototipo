@@ -9,8 +9,9 @@ import {
 } from 'react-simple-maps';
 import Link from 'next/link';
 import * as topojson from 'topojson-client';
-import colombiaTopoJSON from '@/lib/colombia-departments.json';
+import type { Topology } from 'topojson-specification';
 import { useToast } from '@/hooks/use-toast';
+import colombiaTopoJSON from '@/lib/colombia-departments.json';
 
 const cropsOnMap = [
   {
@@ -33,9 +34,10 @@ const cropsOnMap = [
   },
 ];
 
-// The TopoJSON file is now a proper JSON file and needs to be parsed.
-// We use topojson-client library to extract the geographic features.
-const colombiaGeoJSON = topojson.feature(colombiaTopoJSON as any, colombiaTopoJSON.objects.COL_adm1 as any);
+const colombiaGeoJSON = topojson.feature(
+  colombiaTopoJSON as unknown as Topology,
+  colombiaTopoJSON.objects.COL_adm1
+);
 
 export function InteractiveColombiaMap() {
   const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
