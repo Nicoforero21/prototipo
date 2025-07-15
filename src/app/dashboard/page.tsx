@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -5,14 +8,46 @@ import { Progress } from "@/components/ui/progress";
 import { AlertCircle, Calendar, Droplets } from 'lucide-react';
 import { mockCrops } from '@/lib/data';
 import { Label } from '@/components/ui/label';
+import type { Crop } from '@/types';
 
-// Mock tracked crops, in a real app this would come from a database
-const trackedCrops = [
+// Extend Crop type for dashboard specific properties
+interface TrackedCrop extends Crop {
+  stage: number;
+  totalStages: number;
+  nextWatering: string;
+}
+
+// Initial tracked crops, in a real app this would come from a database
+const initialTrackedCrops: TrackedCrop[] = [
   { ...mockCrops[0], stage: 3, totalStages: 4, nextWatering: 'Mañana' },
   { ...mockCrops[1], stage: 2, totalStages: 5, nextWatering: 'En 2 días' },
 ];
 
 export default function DashboardPage() {
+  const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>(initialTrackedCrops);
+
+  const addNextCrop = () => {
+    // Find a crop from mockCrops that is not already tracked
+    const nextCropToAdd = mockCrops.find(
+      (mockCrop) => !trackedCrops.some((trackedCrop) => trackedCrop.slug === mockCrop.slug)
+    );
+
+    if (nextCropToAdd) {
+      setTrackedCrops((prevCrops) => [
+        ...prevCrops,
+        {
+          ...nextCropToAdd,
+          stage: 1,
+          totalStages: nextCropToAdd.lifecycle.length,
+          nextWatering: 'En 3 días', // Default value for new crop
+        },
+      ]);
+    } else {
+      // Optional: handle case where all mock crops are already added
+      alert("¡Ya has añadido todos los cultivos disponibles!");
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-12">
@@ -66,7 +101,7 @@ export default function DashboardPage() {
                 <CardDescription>Explora y añade más plantas a tu panel.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button>+ Explorar Cultivos</Button>
+                <Button onClick={addNextCrop}>+ Explorar Cultivos</Button>
             </CardContent>
         </Card>
       </div>
