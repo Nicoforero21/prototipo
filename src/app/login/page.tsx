@@ -26,7 +26,7 @@ const initialState = {
 };
 
 export default function LoginPage() {
-  const [state, formAction] = useActionState(loginUserA, initialState);
+  const [state, formAction] = useActionState(loginUserAction, initialState);
   const { toast } = useToast();
   const router = useRouter();
   
