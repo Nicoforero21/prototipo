@@ -1,4 +1,4 @@
 import { config } from 'dotenv';
-config();
+config({ path: '.env' });
 
 import '@/ai/flows/detect-plant-species.ts';
