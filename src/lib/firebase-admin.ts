@@ -1,3 +1,6 @@
+import { config } from 'dotenv';
+config(); // Carga las variables de entorno desde el archivo .env
+
 import { initializeApp, getApps, cert, getApp } from 'firebase-admin/app';
 import { getAuth as getAdminAuth, UserRecord } from 'firebase-admin/auth';
 import { cookies } from 'next/headers';
