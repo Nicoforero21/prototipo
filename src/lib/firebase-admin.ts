@@ -1,25 +1,37 @@
 import { initializeApp, getApps, cert, getApp } from 'firebase-admin/app';
 import { getAuth as getAdminAuth, UserRecord } from 'firebase-admin/auth';
 import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
 
-const serviceAccount = {
-  type: 'service_account',
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-  token_uri: 'https://oauth2.googleapis.com/token',
-  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL
-};
-
+// This function parses the FIREBASE_CREDENTIALS environment variable
+// and returns a service account object. It throws an error if the
+// environment variable is not set or is invalid.
+function getServiceAccount() {
+  const credentialsJson = process.env.FIREBASE_CREDENTIALS;
+  if (!credentialsJson) {
+    throw new Error(
+      'The FIREBASE_CREDENTIALS environment variable is not set. ' +
+      'Please follow the instructions in the .env file to set it up.'
+    );
+  }
+  try {
+    const serviceAccount = JSON.parse(credentialsJson);
+    // The private key needs to have newlines restored.
+    if (serviceAccount.private_key) {
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    }
+    return serviceAccount;
+  } catch (error) {
+    console.error('Failed to parse FIREBASE_CREDENTIALS:', error);
+    throw new Error(
+      'Failed to parse FIREBASE_CREDENTIALS. ' +
+      'Make sure it is a valid, single-line JSON string.'
+    );
+  }
+}
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp({
-    credential: cert(serviceAccount)
+    credential: cert(getServiceAccount())
 }) : getApp();
 
 const auth = getAdminAuth(app);
