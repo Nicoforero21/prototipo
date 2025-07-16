@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -17,7 +17,6 @@ import Link from "next/link"
 import { loginUserAction } from '@/lib/auth-actions';
 import { SubmitButton } from '@/components/submit-button';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const initialState = {
@@ -27,7 +26,7 @@ const initialState = {
 };
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(loginUserAction, initialState);
+  const [state, formAction] = useActionState(loginUserA, initialState);
   const { toast } = useToast();
   const router = useRouter();
   

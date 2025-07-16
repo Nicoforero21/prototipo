@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -15,8 +15,6 @@ import { Leaf } from 'lucide-react';
 import Link from 'next/link';
 import { registerUserAction } from '@/lib/auth-actions';
 import { SubmitButton } from '@/components/submit-button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
@@ -27,7 +25,7 @@ const initialState = {
 };
 
 export default function RegisterPage() {
-  const [state, formAction] = useFormState(registerUserAction, initialState);
+  const [state, formAction] = useActionState(registerUserAction, initialState);
   const { toast } = useToast();
   const router = useRouter();
 
