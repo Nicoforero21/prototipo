@@ -13,6 +13,9 @@ const registerSchema = z.object({
   name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres.' }),
   email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido.' }),
   password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
+  region: z.string({
+    required_error: "Por favor seleccione una región.",
+  }),
 });
 
 export async function registerUserAction(
@@ -32,7 +35,7 @@ export async function registerUserAction(
     };
   }
 
-  const { name, email, password } = validatedFields.data;
+  const { name, email, password, region } = validatedFields.data;
 
   try {
     const existingUser = await getUserByEmail(email);
@@ -45,7 +48,7 @@ export async function registerUserAction(
     }
 
     // In a real app, hash the password here before saving
-    await createUser({ name, email, password });
+    await createUser({ name, email, password, region });
     
     return { message: '¡Usuario registrado con éxito!', success: true, error: false };
   } catch (error) {

@@ -26,5 +26,6 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  region: string;
   password?: string; // Password should not be sent to the client
 };
