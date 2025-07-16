@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs, doc, setDoc, updateDoc, arrayUnion, DocumentData } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, doc, setDoc, updateDoc, arrayUnion, DocumentData, getDoc } from 'firebase/firestore';
 import type { User } from '@/types';
 
 // Creates a user document in Firestore.
@@ -22,13 +22,15 @@ export async function createUser(user: Omit<User, 'password'>): Promise<string> 
 }
 
 export async function getUserByUid(uid: string): Promise<User | null> {
-  const q = query(collection(db, "users"), where("__name__", "==", uid));
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty) {
-    return null;
-  }
-  const doc = querySnapshot.docs[0];
-  return { id: doc.id, ...doc.data() } as User;
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+        return { id: userSnap.id, ...userSnap.data() } as User;
+    } else {
+        console.log("No such user!");
+        return null;
+    }
 }
 
 export async function addCropToUser(uid: string, cropSlug: string): Promise<void> {
@@ -51,5 +53,3 @@ export async function hasUserCrop(uid: string, cropSlug: string): Promise<boolea
   }
   return user.trackedCrops.includes(cropSlug);
 }
-
-    
