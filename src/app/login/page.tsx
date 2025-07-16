@@ -19,7 +19,7 @@ import { SubmitButton } from '@/components/submit-button';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
-const initialState = {
+const initialState: { message: string, error: boolean, success: boolean } = {
   message: '',
   error: false,
   success: false,
@@ -31,14 +31,14 @@ export default function LoginPage() {
   const router = useRouter();
   
   useEffect(() => {
-    if(state.error) {
+    if(state?.error) {
        toast({
         variant: 'destructive',
         title: 'Error de inicio de sesión',
         description: state.message,
       });
     }
-    if (state.success) {
+    if (state?.success) {
       toast({
         title: '¡Bienvenido de vuelta!',
         description: 'Has iniciado sesión correctamente.',
@@ -67,6 +67,9 @@ export default function LoginPage() {
                 <Input id="password" name="password" type="password" placeholder="Tu contraseña" required />
               </div>
             </div>
+            {state?.error && (
+              <p className="text-sm font-medium text-destructive mt-4">{state.message}</p>
+            )}
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <SubmitButton className="w-full" pendingText="Ingresando...">Ingresar</SubmitButton>
@@ -79,3 +82,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
+    

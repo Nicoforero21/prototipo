@@ -1,7 +1,14 @@
 'use server';
 
 import { z } from 'zod';
-import { getUserByEmail, createUser } from './user-service';
+import {
+  createUser as createAuthUser,
+  getAuth,
+  setCookie,
+  signInWithEmail,
+  signOut,
+} from './firebase-admin';
+import { createUser as createFirestoreUser } from './user-service';
 
 export type AuthState = {
   message: string;
@@ -38,21 +45,30 @@ export async function registerUserAction(
   const { name, email, password, region } = validatedFields.data;
 
   try {
-    const existingUser = await getUserByEmail(email);
-    if (existingUser) {
+    const user = await createAuthUser({
+      email,
+      password,
+      displayName: name,
+    });
+    
+    await createFirestoreUser({
+      id: user.uid,
+      name,
+      email,
+      region,
+      trackedCrops: []
+    });
+    
+    return { message: '¡Usuario registrado con éxito!', success: true, error: false };
+  } catch (error: any) {
+    console.error('Registration error:', error.code);
+     if (error.code === 'auth/email-already-exists') {
       return {
         message: 'Ya existe una cuenta con este correo electrónico.',
         error: true,
         success: false,
       };
     }
-
-    // In a real app, hash the password here before saving
-    await createUser({ name, email, password, region });
-    
-    return { message: '¡Usuario registrado con éxito!', success: true, error: false };
-  } catch (error) {
-    console.error('Registration error:', error);
     return {
       message: 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.',
       error: true,
@@ -87,36 +103,30 @@ export async function loginUserAction(
   const { email, password } = validatedFields.data;
 
   try {
-    const user = await getUserByEmail(email);
-
-    if (!user) {
-      return {
-        message: 'No existe una cuenta con ese correo electrónico.',
-        error: true,
-        success: false,
-      };
-    }
+    const { idToken } = await signInWithEmail(email, password);
+    await setCookie(idToken);
     
-    // NOTE: In a real app, you would use a secure password comparison function
-    // like bcrypt.compare() instead of this plain text comparison.
-    if (user.password !== password) {
-       return {
-        message: 'La contraseña es incorrecta.',
-        error: true,
-        success: false,
-      };
+    return { message: 'Inicio de sesión exitoso.', success: true, error: false };
+  } catch (error: any) {
+    console.error('Login error:', error.code);
+    let message = 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.';
+
+    if (error.code === 'auth/invalid-credential') {
+        message = 'Correo electrónico o contraseña incorrectos.';
     }
 
-    // Here you would typically create a session, set a cookie, etc.
-    // For this example, we'll just return a success message.
-    return { message: 'Inicio de sesión exitoso.', success: true, error: false };
-
-  } catch (error) {
-    console.error('Login error:', error);
     return {
-      message: 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.',
+      message,
       error: true,
       success: false,
     };
   }
 }
+
+export async function logoutAction() {
+    const auth = getAuth();
+    await signOut(auth);
+    await setCookie(null);
+}
+
+    

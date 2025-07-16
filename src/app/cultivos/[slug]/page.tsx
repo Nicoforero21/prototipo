@@ -1,11 +1,16 @@
+'use server';
 import { mockCrops } from '@/lib/data';
 import type { Crop } from '@/types';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Clock, Cloud, DollarSign, Download, HeartPulse, Share2, Sprout, Sun, Wind, Droplets, RulerHorizontal, Bug, FlaskConical } from 'lucide-react';
+import { getAuthenticatedUser } from '@/lib/auth';
+import { addCropToUser, hasUserCrop } from '@/lib/user-service';
+import { revalidatePath } from 'next/cache';
+import { SubmitButton } from '@/components/submit-button';
 
 export async function generateStaticParams() {
   return mockCrops.map((crop) => ({
@@ -23,13 +28,27 @@ const difficultyColors = {
   Difícil: 'bg-red-100 text-red-800 border-red-300',
 };
 
-export default function CropPage({ params }: { params: { slug: string } }) {
+export default async function CropPage({ params }: { params: { slug: string } }) {
   const crop = getCropData(params.slug);
+  const user = await getAuthenticatedUser();
 
   if (!crop) {
     notFound();
   }
   
+  const userHasCrop = user ? await hasUserCrop(user.uid, crop.slug) : false;
+
+  async function addCropAction() {
+    'use server';
+    if (!user) {
+      redirect('/login');
+    }
+    await addCropToUser(user.uid, crop.slug);
+    revalidatePath('/dashboard');
+    revalidatePath(`/cultivos/${crop.slug}`);
+  }
+
+
   const requirements = [
     { icon: <Droplets />, label: "Riego", value: crop.requirements.watering },
     { icon: <Sun />, label: "Clima", value: crop.requirements.climate },
@@ -56,9 +75,21 @@ export default function CropPage({ params }: { params: { slug: string } }) {
               <CardContent>
                 <p className="text-lg">{crop.longDescription}</p>
                 <div className="mt-6 flex space-x-2">
-                    <Button>
-                        <Sprout className="mr-2 h-4 w-4" /> Añadir a mi dashboard
-                    </Button>
+                    {user && (
+                      <form action={addCropAction}>
+                        <SubmitButton disabled={userHasCrop} pendingText="Añadiendo...">
+                          <Sprout className="mr-2 h-4 w-4" /> 
+                          {userHasCrop ? 'Cultivo en tu panel' : 'Añadir a mi dashboard'}
+                        </SubmitButton>
+                      </form>
+                    )}
+                    {!user && (
+                       <Button asChild>
+                         <a href="/login">
+                          <Sprout className="mr-2 h-4 w-4" /> Inicia sesión para añadir
+                         </a>
+                      </Button>
+                    )}
                     <Button variant="outline">
                         <Share2 className="mr-2 h-4 w-4" /> Compartir
                     </Button>
@@ -144,3 +175,5 @@ export default function CropPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
+    
