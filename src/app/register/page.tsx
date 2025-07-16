@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button"
+'use client';
+
+import { useFormState } from 'react-dom';
 import {
   Card,
   CardContent,
@@ -6,13 +8,46 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Leaf } from 'lucide-react'
-import Link from "next/link"
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Leaf } from 'lucide-react';
+import Link from 'next/link';
+import { registerUserAction } from '@/lib/auth-actions';
+import { SubmitButton } from '@/components/submit-button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
+
+const initialState = {
+  message: '',
+  error: false,
+  success: false,
+};
 
 export default function RegisterPage() {
+  const [state, formAction] = useFormState(registerUserAction, initialState);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error de Registro',
+        description: state.message,
+      });
+    }
+    if (state.success) {
+      toast({
+        title: '¡Registro Exitoso!',
+        description: 'Ahora puedes iniciar sesión con tu nueva cuenta.',
+      });
+      router.push('/login');
+    }
+  }, [state, toast, router]);
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-14rem)] py-12 px-4">
       <Card className="w-full max-w-sm">
@@ -21,35 +56,33 @@ export default function RegisterPage() {
           <CardTitle className="font-headline text-2xl mt-4">Crear Cuenta</CardTitle>
           <CardDescription>Regístrate para empezar a cultivar.</CardDescription>
         </CardHeader>
-        <CardContent>
-          <form>
+        <form action={formAction}>
+          <CardContent>
             <div className="grid w-full items-center gap-4">
-               <div className="flex flex-col space-y-1.5">
+              <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Nombre</Label>
-                <Input id="name" type="text" placeholder="Tu nombre completo" />
+                <Input id="name" name="name" type="text" placeholder="Tu nombre completo" required />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Correo Electrónico</Label>
-                <Input id="email" type="email" placeholder="tu@email.com" />
+                <Input id="email" name="email" type="email" placeholder="tu@email.com" required />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" type="password" placeholder="Crea una contraseña" />
-              </div>
-               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="confirm-password">Confirmar Contraseña</Label>
-                <Input id="confirm-password" type="password" placeholder="Confirma tu contraseña" />
+                <Input id="password" name="password" type="password" placeholder="Crea una contraseña" required />
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full">Crear Cuenta</Button>
-          <p className="text-center text-sm text-muted-foreground">
-            ¿Ya tienes una cuenta? <Link href="/login" className="underline text-primary">Inicia Sesión</Link>
-          </p>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-4">
+            <SubmitButton className="w-full" pendingText="Creando cuenta...">
+              Crear Cuenta
+            </SubmitButton>
+            <p className="text-center text-sm text-muted-foreground">
+              ¿Ya tienes una cuenta? <Link href="/login" className="underline text-primary">Inicia Sesión</Link>
+            </p>
+          </CardFooter>
+        </form>
       </Card>
     </div>
-  )
+  );
 }

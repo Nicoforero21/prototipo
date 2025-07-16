@@ -21,3 +21,10 @@ export type Crop = {
     hydroponics: string;
   };
 };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string; // Password should not be sent to the client
+};
