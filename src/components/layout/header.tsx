@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Leaf, Menu, User as UserIcon, Settings, LogOut } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { getAuthenticatedUser } from '@/lib/auth';
+import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -118,5 +118,3 @@ export default async function Header() {
     </header>
   );
 }
-
-    

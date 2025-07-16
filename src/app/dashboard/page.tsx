@@ -1,15 +1,19 @@
-'use client';
 
-import { useState, useEffect } from 'react';
+'use server';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, Calendar, Droplets, Sprout, Wheat } from 'lucide-react';
 import { mockCrops } from '@/lib/data';
-import { Label } from '@/components/ui/label';
 import type { Crop } from '@/types';
 import Link from 'next/link';
+import { getAuthenticatedUser } from '@/lib/firebase-admin';
+import { getUserByUid } from '@/lib/user-service';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { addCropToUser } from '@/lib/user-service';
 
 // Extend Crop type for dashboard specific properties
 interface TrackedCrop extends Crop {
@@ -18,49 +22,34 @@ interface TrackedCrop extends Crop {
   nextWatering: string;
 }
 
-// Initial tracked crops, in a real app this would come from a database
-const initialTrackedCrops: TrackedCrop[] = [
-  // This will now be populated from user data
-];
-
-export default function DashboardPage() {
-  const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>(initialTrackedCrops);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchDashboardData() {
-      // In a real app, you would fetch user-specific data here.
-      // For now, we'll simulate it by checking if the user has added crops in a previous step,
-      // which would be stored in localStorage for this demo or fetched from a DB.
-      
-      // Let's create a temporary mock of what the DB would return.
-      const userCropSlugs = ['lechuga', 'tomate']; // This would be fetched from the user's profile
-      
-      const userCrops = mockCrops
-        .filter(crop => userCropSlugs.includes(crop.slug))
-        .map(crop => ({
-          ...crop,
-          stage: Math.ceil(Math.random() * crop.lifecycle.length),
-          totalStages: crop.lifecycle.length,
-          nextWatering: `En ${Math.ceil(Math.random() * 3)} días`,
-        }));
-      
-      setTrackedCrops(userCrops);
-      setLoading(false);
-    }
-
-    fetchDashboardData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-headline font-bold text-primary mb-2">
-          Cargando tu Panel de Cultivo...
-        </h1>
-      </div>
-    );
+export default async function DashboardPage() {
+  const authUser = await getAuthenticatedUser();
+  if (!authUser) {
+    redirect('/login');
   }
+
+  const user = await getUserByUid(authUser.uid);
+  const userCropSlugs = user?.trackedCrops || [];
+  
+  const trackedCrops: TrackedCrop[] = mockCrops
+    .filter(crop => userCropSlugs.includes(crop.slug))
+    .map(crop => ({
+      ...crop,
+      stage: Math.ceil(Math.random() * crop.lifecycle.length),
+      totalStages: crop.lifecycle.length,
+      nextWatering: `En ${Math.ceil(Math.random() * 3)} días`,
+    }));
+    
+  async function addAnotherCropAction() {
+    'use server';
+    if (!authUser) return;
+    const availableCrops = mockCrops.filter(crop => !userCropSlugs.includes(crop.slug));
+    if (availableCrops.length > 0) {
+      await addCropToUser(authUser.uid, 'maiz');
+      revalidatePath('/dashboard');
+    }
+  }
+
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -90,7 +79,7 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 <div>
-                  <Label className="text-sm font-medium">Progreso del Cultivo</Label>
+                  <p className="text-sm font-medium text-muted-foreground">Progreso del Cultivo</p>
                   <Progress value={(crop.stage / crop.totalStages) * 100} className="w-full mt-1" />
                   <p className="text-xs text-muted-foreground mt-1">{crop.lifecycle[crop.stage-1]}</p>
                 </div>
@@ -116,9 +105,9 @@ export default function DashboardPage() {
                   <CardDescription>Explora y añade más plantas a tu panel.</CardDescription>
               </CardHeader>
               <CardContent>
-                  <Button asChild>
-                    <Link href="/">+ Explorar Cultivos</Link>
-                  </Button>
+                  <form action={addAnotherCropAction}>
+                    <Button type="submit">+ Explorar Cultivos</Button>
+                  </form>
               </CardContent>
           </Card>
         </div>
@@ -144,5 +133,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
