@@ -1,5 +1,8 @@
 'use server';
 
+import { config } from 'dotenv';
+config({ path: '.env' });
+
 import { z } from 'zod';
 import {
   createUser as createAuthUser,
@@ -61,7 +64,7 @@ export async function registerUserAction(
     
     return { message: '¡Usuario registrado con éxito!', success: true, error: false };
   } catch (error: any) {
-    console.error('Registration error:', error.code);
+    console.error('Registration error:', error.code, error.message);
      if (error.code === 'auth/email-already-exists' || error.message.includes('EMAIL_EXISTS')) {
       return {
         message: 'Ya existe una cuenta con este correo electrónico.',
