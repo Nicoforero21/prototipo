@@ -25,7 +25,7 @@ const registerSchema = z.object({
   password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
   region: z.string({
     required_error: "Por favor seleccione una región.",
-  }),
+  }).min(1, { message: "Por favor seleccione una región." }),
 });
 
 export async function registerUserAction(
@@ -38,8 +38,9 @@ export async function registerUserAction(
 
   if (!validatedFields.success) {
     const errorMessages = validatedFields.error.flatten().fieldErrors;
+    const firstError = Object.values(errorMessages).flat().shift();
     return {
-      message: Object.values(errorMessages).flat().join(' '),
+      message: firstError || 'Error de validación. Por favor, revise los campos.',
       error: true,
       success: false,
     };
