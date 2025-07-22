@@ -6,11 +6,10 @@ config({ path: '.env' });
 
 import { z } from 'zod';
 import {
-  signUpWithEmail,
-  getAuth,
   setCookie,
   signInWithEmail,
   signOut,
+  signUpWithEmail,
 } from './firebase-admin';
 import { createUser as createFirestoreUser } from './user-service';
 
@@ -128,7 +127,5 @@ export async function loginUserAction(
 }
 
 export async function logoutAction() {
-    const auth = getAuth();
-    await signOut(auth);
     await setCookie(null);
 }
