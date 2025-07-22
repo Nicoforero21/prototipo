@@ -33,8 +33,10 @@ function getServiceAccount() {
 }
 
 // Initialize Firebase
+const serviceAccount = getServiceAccount();
+
 const app = !getApps().length ? initializeApp({
-    credential: cert(getServiceAccount())
+    credential: cert(serviceAccount)
 }) : getApp();
 
 const auth = getAdminAuth(app);
@@ -103,7 +105,34 @@ export async function signInWithEmail(email:string, password:string):Promise<{id
     return { idToken: data.idToken };
 }
 
-export async function createUser(properties: { email: string, password?: string, displayName?: string }) {
+export async function signUpWithEmail(properties: { email: string, password?: string, displayName?: string }):Promise<{localId: string, idToken: string}>{
+    const signUpEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`;
+    
+    const res = await fetch(signUpEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            email: properties.email, 
+            password: properties.password, 
+            displayName: properties.displayName,
+            returnSecureToken: true 
+        }),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        console.error('Firebase sign-up error:', error.error.message);
+        if (error.error.message === 'EMAIL_EXISTS') {
+          throw new Error('auth/email-already-exists');
+        }
+        throw new Error('auth/internal-error');
+    }
+    
+    const data = await res.json();
+    return { localId: data.localId, idToken: data.idToken };
+}
+
+export async function createAdminAuthUser(properties: { email: string, password?: string, displayName?: string }) {
     return auth.createUser(properties);
 }
 

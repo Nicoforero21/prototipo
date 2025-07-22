@@ -6,7 +6,7 @@ config({ path: '.env' });
 
 import { z } from 'zod';
 import {
-  createUser as createAuthUser,
+  signUpWithEmail,
   getAuth,
   setCookie,
   signInWithEmail,
@@ -49,14 +49,14 @@ export async function registerUserAction(
   const { name, email, password, region } = validatedFields.data;
 
   try {
-    const user = await createAuthUser({
+    const { localId } = await signUpWithEmail({
       email,
       password,
       displayName: name,
     });
     
     await createFirestoreUser({
-      id: user.uid,
+      id: localId,
       name,
       email,
       region,
