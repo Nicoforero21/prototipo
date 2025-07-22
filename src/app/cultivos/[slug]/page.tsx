@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Clock, Download, HeartPulse, Share2, Sprout, Sun, Droplets, RulerHorizontal, Bug, FlaskConical } from 'lucide-react';
+import { CheckCircle, Clock, Download, HeartPulse, Share2, Sprout, Sun, Droplets, RulerHorizontal, Bug, FlaskConical, Wind } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { addCropToUser, hasUserCrop } from '@/lib/user-service';
 import { revalidatePath } from 'next/cache';
@@ -51,7 +51,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
 
   const requirements = [
     { icon: <Droplets />, label: "Riego", value: crop.requirements.watering },
-    { icon: <Sun />, label: "Clima", value: crop.requirements.climate },
+    { icon: <Wind />, label: "Clima", value: crop.requirements.climate },
     { icon: <RulerHorizontal />, label: "Espacio", value: crop.requirements.space },
     { icon: <Bug />, label: "Plagas Comunes", value: crop.requirements.pests },
     { icon: <FlaskConical />, label: "Fertilizantes", value: crop.requirements.fertilizers },
