@@ -7,7 +7,7 @@ export const mockCrops: Crop[] = [
     latinName: 'Lactuca sativa',
     shortDescription: 'Crujiente y refrescante, ideal para ensaladas rápidas y frescas.',
     longDescription: 'La lechuga es una hortaliza de hoja verde que se cultiva por sus hojas tiernas y sabrosas. Es un cultivo de ciclo corto, perfecto para huertos urbanos y principiantes por su fácil manejo y rápido crecimiento.',
-    imageUrl: 'https://placehold.co/400x250.png',
+    imageUrl: 'https://images.unsplash.com/photo-1640958904159-51ae08bd3412?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsZXR0dWNlfGVufDB8fHx8MTc1MzE5NDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'lettuce vegetable',
     difficulty: 'Fácil',
     lifecycle: ['Siembra', 'Germinación (5-10 días)', 'Crecimiento de hojas (30-40 días)', 'Cosecha'],
