@@ -1,9 +1,6 @@
 
 'use server';
 
-import { config } from 'dotenv';
-config({ path: '.env' });
-
 import { z } from 'zod';
 import {
   setCookie,
@@ -66,7 +63,7 @@ export async function registerUserAction(
     return { message: '¡Usuario registrado con éxito!', success: true, error: false };
   } catch (error: any) {
     console.error('Registration error:', error.code, error.message);
-     if (error.code === 'auth/email-already-exists' || error.message.includes('EMAIL_EXISTS')) {
+     if (error.code === 'auth/email-already-exists' || error.message?.includes('EMAIL_EXISTS')) {
       return {
         message: 'Ya existe una cuenta con este correo electrónico.',
         error: true,
@@ -115,7 +112,7 @@ export async function loginUserAction(
     console.error('Login error:', error.code, error.message);
     let message = 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.';
 
-    if (error.code === 'auth/invalid-credential' || error.message.includes('INVALID_LOGIN_CREDENTIALS')) {
+    if (error.code === 'auth/invalid-credential' || error.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
         message = 'Correo electrónico o contraseña incorrectos.';
     }
 
