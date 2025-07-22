@@ -5,7 +5,6 @@ import { z } from 'zod';
 import {
   setCookie,
   signInWithEmail,
-  signOut,
   signUpWithEmail,
 } from './firebase-admin';
 import { createUser as createFirestoreUser } from './user-service';
@@ -16,13 +15,22 @@ export type AuthState = {
   success: boolean;
 };
 
+const regions = [
+  "Andina",
+  "Caribe",
+  "Pacífica",
+  "Orinoquía",
+  "Amazonía",
+  "Insular"
+];
+
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres.' }),
   email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido.' }),
   password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
-  region: z.string({
-    required_error: "Por favor seleccione una región.",
-  }).min(1, { message: "Por favor seleccione una región." }),
+  region: z.enum(regions, {
+    errorMap: () => ({ message: "Por favor seleccione una región válida." }),
+  }),
 });
 
 export async function registerUserAction(
