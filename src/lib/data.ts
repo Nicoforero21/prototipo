@@ -53,7 +53,7 @@ export const mockCrops: Crop[] = [
     latinName: 'Zea mays',
     shortDescription: 'Un pilar de la alimentación colombiana, desde arepas hasta mazamorra.',
     longDescription: 'El maíz es un cultivo fundamental en la cultura y dieta de Colombia. Su cultivo a gran escala es complejo, pero es posible tener una pequeña plantación en un huerto grande, prestando atención a la polinización para obtener buenas mazorcas.',
-    imageUrl: 'https://placehold.co/400x250.png',
+    imageUrl: 'https://images.unsplash.com/photo-1634467524884-897d0af5e104?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYSVDMyVBRHp8ZW58MHx8fHwxNzUzMTk0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'corn field',
     difficulty: 'Difícil',
     lifecycle: ['Siembra', 'Germinación (7-10 días)', 'Crecimiento rápido (30-60 días)', 'Polinización y formación de mazorca (60-80 días)', 'Cosecha (90-120 días)'],
