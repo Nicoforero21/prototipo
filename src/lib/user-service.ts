@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs, doc, setDoc, updateDoc, arrayUnion, DocumentData, getDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import type { User } from '@/types';
 
 // Creates a user document in Firestore.
