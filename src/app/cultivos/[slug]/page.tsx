@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Clock, Download, HeartPulse, Share2, Sprout, Sun, Droplets, RulerHorizontal, Bug, FlaskConical, Wind } from 'lucide-react';
+import { CheckCircle, Clock, Download, HeartPulse, Share2, Sprout, Droplets, RulerHorizontal, Bug, FlaskConical, Wind } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { addCropToUser, hasUserCrop } from '@/lib/user-service';
 import { revalidatePath } from 'next/cache';
