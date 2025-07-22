@@ -30,7 +30,7 @@ export const mockCrops: Crop[] = [
     latinName: 'Solanum lycopersicum',
     shortDescription: 'Fruto jugoso y versátil, esencial en la cocina colombiana.',
     longDescription: 'El tomate es una de las hortalizas más populares y cultivadas en el mundo. Requiere más cuidados que la lechuga, como tutores para sostener su crecimiento y podas regulares, pero la recompensa es una cosecha abundante y sabrosa.',
-    imageUrl: 'https://placehold.co/400x250.png',
+    imageUrl: 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0b21hdG98ZW58MHx8fHwxNzUzMTk0NDg4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'tomato plant',
     difficulty: 'Media',
     lifecycle: ['Siembra', 'Germinación (6-14 días)', 'Crecimiento vegetativo y floración (40-60 días)', 'Fructificación y maduración (60-90 días)', 'Cosecha'],
