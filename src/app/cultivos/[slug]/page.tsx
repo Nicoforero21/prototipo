@@ -11,7 +11,7 @@ import { CheckCircle, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizo
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { addCropToUser, hasUserCrop } from '@/lib/user-service';
 import { revalidatePath } from 'next/cache';
-import { SubmitButton } from '@/components/submit-button';
+import { SubmitButton } from '@/components/ui/submit-button';
 
 export async function generateStaticParams() {
   return mockCrops.map((crop) => ({
