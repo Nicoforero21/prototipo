@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Leaf } from 'lucide-react';
 import Link from 'next/link';
 import { registerUserAction } from '@/lib/auth-actions';
-import { SubmitButton } from '@/components/ui/submit-button';
+import { SubmitButton } from '@/components/submit-button';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import {

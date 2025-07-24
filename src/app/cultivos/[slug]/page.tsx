@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Bug, Wind, FlaskConical } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { hasUserCrop } from '@/lib/user-service';
-import { SubmitButton } from '@/components/ui/submit-button';
+import { SubmitButton } from '@/components/submit-button';
 import { addCropAction } from '@/lib/actions';
 
 
