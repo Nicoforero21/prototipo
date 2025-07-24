@@ -12,6 +12,7 @@ import * as topojson from 'topojson-client';
 import type { Topology } from 'topojson-specification';
 import { useToast } from '@/hooks/use-toast';
 import colombiaTopoJSON from '@/lib/colombia-departments.json';
+import Image from 'next/image';
 
 const cropsOnMap = [
   {
@@ -49,9 +50,26 @@ export function InteractiveColombiaMap() {
       description: `Próximamente podrás ver información detallada para el departamento de ${deptName}.`,
     })
   }
+  
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    if (tooltip) {
+        setTooltip({ ...tooltip, x: e.clientX, y: e.clientY });
+    }
+  }
+
+  const handleMouseLeaveMap = () => {
+      setTooltip(null);
+  }
 
   return (
-    <div className="relative bg-blue-100/50">
+    <div className="relative">
+       <Image 
+        src="https://thumbs.dreamstime.com/b/mapa-f%C3%ADsico-de-colombia-altamente-detallado-en-formato-vector-con-todas-las-formas-ayuda-regiones-y-grandes-ciudades-188053912.jpg"
+        alt="Mapa físico de Colombia"
+        layout="fill"
+        objectFit="cover"
+        className="opacity-50"
+       />
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
@@ -59,11 +77,8 @@ export function InteractiveColombiaMap() {
           center: [-74, 4.5],
         }}
         style={{ width: '100%', height: 'auto' }}
-        onMouseMove={(e) => {
-            if (tooltip) {
-                setTooltip({ ...tooltip, x: e.clientX, y: e.clientY });
-            }
-        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeaveMap}
       >
         <Geographies geography={colombiaGeoJSON}>
           {({ geographies }) =>
@@ -82,19 +97,19 @@ export function InteractiveColombiaMap() {
                 className="cursor-pointer"
                 style={{
                   default: {
-                    fill: 'hsl(var(--primary) / 0.2)',
-                    stroke: 'hsl(var(--primary))',
+                    fill: 'hsl(var(--primary) / 0.1)',
+                    stroke: 'hsl(var(--primary) / 0.5)',
                     strokeWidth: 0.75,
                     outline: 'none',
                   },
                   hover: {
-                    fill: 'hsl(var(--accent))',
+                    fill: 'hsl(var(--accent) / 0.3)',
                     stroke: 'hsl(var(--primary))',
                     strokeWidth: 1,
                     outline: 'none',
                   },
                   pressed: {
-                    fill: 'hsl(var(--accent-foreground))',
+                    fill: 'hsl(var(--accent-foreground) / 0.3)',
                     stroke: 'hsl(var(--primary))',
                     strokeWidth: 1,
                     outline: 'none',
@@ -106,7 +121,7 @@ export function InteractiveColombiaMap() {
         </Geographies>
         {cropsOnMap.map(({ name, coordinates, slug, emoji }) => (
             <Marker key={name} coordinates={coordinates}>
-                <Link href={`/cultivos/${slug}`}>
+                <Link href={`/cultivos/${slug}`} passHref>
                     <g
                         onMouseEnter={(e) => {
                             setTooltip({ content: `Cultivo: ${name}`, x: e.clientX, y: e.clientY });
