@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -68,7 +69,7 @@ export function InteractiveColombiaMap() {
         alt="Mapa físico de Colombia"
         layout="fill"
         objectFit="cover"
-        className="opacity-50"
+        className="opacity-50 pointer-events-none"
        />
       <ComposableMap
         projection="geoMercator"
@@ -76,6 +77,7 @@ export function InteractiveColombiaMap() {
           scale: 2300,
           center: [-74, 4.5],
         }}
+        className="relative z-10"
         style={{ width: '100%', height: 'auto' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeaveMap}
