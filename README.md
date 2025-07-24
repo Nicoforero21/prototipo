@@ -8,6 +8,8 @@ To get started, take a look at src/app/page.tsx.
 
 To connect the application to your Firebase project, you need to provide your service account credentials and your web app's API Key.
 
+**IMPORTANT:** The application will not function correctly until you have configured these environment variables in the `.env` file.
+
 ### 1. Service Account Credentials (for `FIREBASE_CREDENTIALS`)
 
 This is used for server-side operations (like creating users and sessions).

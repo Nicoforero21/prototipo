@@ -11,10 +11,10 @@ import { cookies } from 'next/headers';
 // environment variable is not set or is invalid.
 function getServiceAccount() {
   const credentialsJson = process.env.FIREBASE_CREDENTIALS;
-  if (!credentialsJson) {
+  if (!credentialsJson || credentialsJson === 'YOUR_FIREBASE_CREDENTIALS_JSON_AS_SINGLE_LINE') {
     throw new Error(
       'The FIREBASE_CREDENTIALS environment variable is not set. ' +
-      'Please follow the instructions in the .env file to set it up.'
+      'Please follow the instructions in the README.md file to set it up.'
     );
   }
   try {
@@ -86,7 +86,11 @@ export async function signInWithEmail(email:string, password:string):Promise<{id
     // This is a workaround to sign in with email and password on the server.
     // Firebase Admin SDK does not have a direct signInWithEmailAndPassword method.
     // We use the client SDK REST API for this.
-    const signInEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`;
+    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+    if (!apiKey || apiKey === 'YOUR_FIREBASE_WEB_API_KEY') {
+      throw new Error('NEXT_PUBLIC_FIREBASE_API_KEY is not set.');
+    }
+    const signInEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
     
     const res = await fetch(signInEndpoint, {
         method: 'POST',
@@ -107,7 +111,11 @@ export async function signInWithEmail(email:string, password:string):Promise<{id
 }
 
 export async function signUpWithEmail(properties: { email: string, password?: string, displayName?: string }):Promise<{localId: string, idToken: string}>{
-    const signUpEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`;
+    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+     if (!apiKey || apiKey === 'YOUR_FIREBASE_WEB_API_KEY') {
+      throw new Error('NEXT_PUBLIC_FIREBASE_API_KEY is not set.');
+    }
+    const signUpEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
     
     const res = await fetch(signUpEndpoint, {
         method: 'POST',

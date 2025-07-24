@@ -2,10 +2,12 @@
 import { initializeApp, getApps, getApp, type FirebaseOptions } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: apiKey,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
@@ -13,8 +15,8 @@ const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-if (!firebaseConfig.apiKey) {
-    throw new Error("NEXT_PUBLIC_FIREBASE_API_KEY is not set in .env");
+if (!apiKey || apiKey === 'YOUR_FIREBASE_WEB_API_KEY') {
+    throw new Error("NEXT_PUBLIC_FIREBASE_API_KEY is not set in .env. Please follow the instructions in README.md.");
 }
 
 // Initialize Firebase
