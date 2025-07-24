@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { mockCrops } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
+import { InteractiveColombiaMap } from '@/components/interactive-colombia-map';
 
 export default function Home() {
   const difficultyColors = {
@@ -29,14 +30,7 @@ export default function Home() {
         <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales por departamento. Pasa el cursor sobre una región o un cultivo.</p>
         <Card className="overflow-hidden shadow-lg">
           <CardContent className="p-0">
-            <Image
-              src="https://thumbs.dreamstime.com/b/mapa-f%C3%ADsico-de-colombia-altamente-detallado-en-formato-vector-con-todas-las-formas-ayuda-regiones-y-grandes-ciudades-188053912.jpg"
-              alt="Mapa físico de Colombia"
-              width={900}
-              height={637}
-              className="w-full h-auto object-cover"
-              data-ai-hint="colombia map"
-            />
+            <InteractiveColombiaMap />
           </CardContent>
         </Card>
       </section>
