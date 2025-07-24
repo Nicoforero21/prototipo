@@ -35,3 +35,13 @@ This is used for client-side operations (like logging in with email/password).
 5.  **Find your Web App:** Scroll down to the "Your apps" section. If you don't have a web app, you'll need to create one by clicking the `</>` icon.
 6.  **Copy the API Key:** In your web app's configuration, find the `apiKey` field. Copy this value.
 7.  **Update the `.env` file:** Paste the key into the `NEXT_PUBLIC_FIREBASE_API_KEY` variable in your `.env` file.
+
+### 3. Gemini API Key (for `GEMINI_API_KEY`)
+
+This is used for the AI features of the application, like plant detection.
+
+1.  **Go to Google AI Studio:** Visit [https://aistudio.google.com/](https://aistudio.google.com/).
+2.  **Get API Key:** Click on the "Get API key" button in the top left corner.
+3.  **Create API Key:** In the menu that opens, click "Create API key in new project". A new key will be generated for you.
+4.  **Copy the API Key:** Copy the generated key.
+5.  **Update the `.env` file:** Paste the key into the `GEMINI_API_KEY` variable in your `.env` file.
