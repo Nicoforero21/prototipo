@@ -1,4 +1,3 @@
-
 import { mockCrops } from '@/lib/data';
 import type { Crop } from '@/types';
 import { notFound, redirect } from 'next/navigation';
@@ -8,22 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Bug, Wind, FlaskConical } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
-import { addCropToUser, hasUserCrop } from '@/lib/user-service';
-import { revalidatePath } from 'next/cache';
+import { hasUserCrop } from '@/lib/user-service';
 import { SubmitButton } from '@/components/ui/submit-button';
+import { addCropAction } from '@/lib/actions';
 
-// ✅ Server Action movida fuera del componente
-export async function addCropAction(prevState: any, formData: FormData) {
-  'use server';
-  const slug = formData.get('slug') as string;
-  const user = await getAuthenticatedUser();
-  if (!user) {
-    redirect('/login');
-  }
-  await addCropToUser(user.uid, slug);
-  revalidatePath('/dashboard');
-  revalidatePath(`/cultivos/${slug}`);
-}
 
 export async function generateStaticParams() {
   return mockCrops.map((crop) => ({
