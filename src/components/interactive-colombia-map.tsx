@@ -52,18 +52,18 @@ export function InteractiveColombiaMap() {
     })
   }
   
-  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (tooltip) {
         setTooltip({ ...tooltip, x: e.clientX, y: e.clientY });
     }
   }
 
-  const handleMouseLeaveMap = () => {
+  const handleMouseLeave = () => {
       setTooltip(null);
   }
 
   return (
-    <div className="relative">
+    <div className="relative" onMouseMove={handleMouseMove}>
        <Image 
         src="https://thumbs.dreamstime.com/b/mapa-f%C3%ADsico-de-colombia-altamente-detallado-en-formato-vector-con-todas-las-formas-ayuda-regiones-y-grandes-ciudades-188053912.jpg"
         alt="Mapa físico de Colombia"
@@ -79,8 +79,6 @@ export function InteractiveColombiaMap() {
         }}
         className="relative z-10"
         style={{ width: '100%', height: 'auto' }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeaveMap}
       >
         <Geographies geography={colombiaGeoJSON}>
           {({ geographies }) =>
@@ -93,9 +91,7 @@ export function InteractiveColombiaMap() {
                   const { NAME_1: name } = geo.properties;
                   setTooltip({ content: name, x: e.clientX, y: e.clientY });
                 }}
-                onMouseLeave={() => {
-                  setTooltip(null);
-                }}
+                onMouseLeave={handleMouseLeave}
                 className="cursor-pointer"
                 style={{
                   default: {
@@ -128,9 +124,7 @@ export function InteractiveColombiaMap() {
                         onMouseEnter={(e) => {
                             setTooltip({ content: `Cultivo: ${name}`, x: e.clientX, y: e.clientY });
                         }}
-                        onMouseLeave={() => {
-                            setTooltip(null);
-                        }}
+                        onMouseLeave={handleMouseLeave}
                         className="cursor-pointer group"
                     >
                         <circle r="16" fill="hsl(var(--card))" stroke="hsl(var(--card-foreground) / 0.5)" strokeWidth={1} className="group-hover:stroke-primary transition-colors" />
