@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { SubmitButton } from '@/components/submit-button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from 'next/image';
-import { UploadCloud, CheckCircle, AlertTriangle, Leaf, HeartPulse, Scale } from 'lucide-react';
+import { UploadCloud, CheckCircle, AlertTriangle, Leaf, HeartPulse, Scale, Sun, Droplets, Lightbulb } from 'lucide-react';
 
 export default function PlantDetector() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -115,6 +115,34 @@ export default function PlantDetector() {
                 </CardContent>
               </Card>
             </div>
+             <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center"><Lightbulb className="mr-2 text-primary" /> Recomendaciones de Cuidado</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-start">
+                  <Droplets className="mr-3 h-5 w-5 text-blue-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold">Riego</h4>
+                    <p className="text-muted-foreground">{formState.result.careRecommendations.watering}</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Sun className="mr-3 h-5 w-5 text-yellow-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold">Luz Solar</h4>
+                    <p className="text-muted-foreground">{formState.result.careRecommendations.sunlight}</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <CheckCircle className="mr-3 h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold">Consejos Generales</h4>
+                    <p className="text-muted-foreground">{formState.result.careRecommendations.generalTips}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </CardContent>

@@ -30,6 +30,11 @@ const DetectPlantSpeciesOutputSchema = z.object({
     isHealthy: z.boolean().describe('Si la planta parece estar sana o no.'),
     issues: z.string().describe('Descripción en español de cualquier problema de salud, anormalidad o posible enfermedad detectada.'),
   }),
+  careRecommendations: z.object({
+    watering: z.string().describe('Instrucciones de riego en español.'),
+    sunlight: z.string().describe('Recomendaciones de luz solar en español.'),
+    generalTips: z.string().describe('Consejos generales de cuidado en español para mantener la planta sana o ayudar a su recuperación.'),
+  }),
 });
 export type DetectPlantSpeciesOutput = z.infer<typeof DetectPlantSpeciesOutputSchema>;
 
@@ -41,7 +46,7 @@ const detectPlantSpeciesPrompt = ai.definePrompt({
   name: 'detectPlantSpeciesPrompt',
   input: {schema: DetectPlantSpeciesInputSchema},
   output: {schema: DetectPlantSpeciesOutputSchema},
-  prompt: `Eres un botánico experto especializado en identificar especies de plantas y evaluar su salud a partir de imágenes. Todas tus respuestas deben ser en español.
+  prompt: `Eres un botánico experto y un agrónomo especializado en identificar especies de plantas y cuidarlas, a partir de imágenes. Todas tus respuestas deben ser en español.
 
   Analiza la imagen de la planta proporcionada y brinda la siguiente información:
 
@@ -53,9 +58,14 @@ const detectPlantSpeciesPrompt = ai.definePrompt({
   *   Evalúa si la planta parece estar sana o no.
   *   Describe cualquier problema de salud, anormalidad o posible enfermedad detectada.
 
+  3.  Recomendaciones de Cuidado:
+  *   Proporciona instrucciones claras y concisas sobre el riego (watering).
+  *   Da recomendaciones sobre la cantidad y tipo de luz solar que necesita (sunlight).
+  *   Ofrece consejos generales adicionales (generalTips) para mantener la planta saludable o para tratar los problemas detectados.
+
   Haz referencia a la planta en la siguiente foto: {{media url=photoDataUri}}.
 
-  Asegúrate de que tu respuesta esté bien estructurada y sea fácil de entender.`,
+  Asegúrate de que tu respuesta esté bien estructurada y sea fácil de entender para un jardinero aficionado.`,
 });
 
 const detectPlantSpeciesFlow = ai.defineFlow(
