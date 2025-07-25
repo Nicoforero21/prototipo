@@ -60,8 +60,7 @@ export async function registerUserAction(
       displayName: name,
     });
     
-    await createFirestoreUser({
-      id: localId,
+    await createFirestoreUser(localId, {
       name,
       email,
       region,

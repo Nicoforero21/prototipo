@@ -4,17 +4,14 @@ import type { User } from '@/types';
 
 // Creates a user document in Firestore.
 // The user ID should be the same as the Firebase Auth UID.
-export async function createUser(user: Omit<User, 'password'>): Promise<string> {
+export async function createUser(uid: string, data: Omit<User, 'id' | 'password'>): Promise<void> {
   try {
     // Use the user's UID from Firebase Auth as the document ID
-    const userRef = doc(db, 'users', user.id);
+    const userRef = doc(db, 'users', uid);
     await setDoc(userRef, {
-      name: user.name,
-      email: user.email,
-      region: user.region,
-      trackedCrops: user.trackedCrops || []
+      ...data,
+      trackedCrops: data.trackedCrops || []
     });
-    return user.id;
   } catch (e) {
     console.error("Error adding document: ", e);
     throw new Error('Could not create user in Firestore');
