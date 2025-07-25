@@ -30,5 +30,3 @@ export type User = {
   password?: string; // Password should not be sent to the client
   trackedCrops: string[]; // Array of crop slugs
 };
-
-    
