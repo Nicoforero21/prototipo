@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Leaf } from 'lucide-react';
 import Link from 'next/link';
-import { registerUserAction } from '@/lib/auth-actions';
+import { registerUserAction, type AuthState } from '@/lib/auth-actions';
 import { SubmitButton } from '@/components/submit-button';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -35,9 +35,9 @@ const regions = [
   "Insular"
 ];
 
-const initialState = {
+const initialState: AuthState = {
   message: '',
-  error: false,
+  errors: {},
   success: false,
 };
 
@@ -47,19 +47,18 @@ export default function RegisterPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error de Registro',
-        description: state.message,
-      });
-    }
-    if (state?.success) {
+    if (state.success) {
       toast({
         title: '¡Registro Exitoso!',
         description: 'Ahora puedes iniciar sesión con tu nueva cuenta.',
       });
       router.push('/login');
+    } else if (state.message && !state.errors) {
+       toast({
+        variant: 'destructive',
+        title: 'Error de Registro',
+        description: state.message,
+      });
     }
   }, [state, toast, router]);
 
@@ -77,14 +76,17 @@ export default function RegisterPage() {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Nombre</Label>
                 <Input id="name" name="name" type="text" placeholder="Tu nombre completo" required />
+                {state.errors?.name && <p className="text-destructive text-sm">{state.errors.name[0]}</p>}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Correo Electrónico</Label>
                 <Input id="email" name="email" type="email" placeholder="tu@email.com" required />
+                 {state.errors?.email && <p className="text-destructive text-sm">{state.errors.email[0]}</p>}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" name="password" type="password" placeholder="Crea una contraseña" required />
+                <Input id="password" name="password" type="password" placeholder="Crea una contraseña (mín. 6 caracteres)" required />
+                 {state.errors?.password && <p className="text-destructive text-sm">{state.errors.password[0]}</p>}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label>Región</Label>
@@ -98,6 +100,7 @@ export default function RegisterPage() {
                     ))}
                   </SelectContent>
                 </Select>
+                 {state.errors?.region && <p className="text-destructive text-sm">{state.errors.region[0]}</p>}
               </div>
             </div>
           </CardContent>
@@ -105,6 +108,9 @@ export default function RegisterPage() {
             <SubmitButton className="w-full" pendingText="Creando cuenta...">
               Crear Cuenta
             </SubmitButton>
+             {state.message && !state.success && !state.errors && (
+              <p className="text-destructive text-sm text-center">{state.message}</p>
+            )}
             <p className="text-center text-sm text-muted-foreground">
               ¿Ya tienes una cuenta? <Link href="/login" className="underline text-primary">Inicia Sesión</Link>
             </p>

@@ -4,25 +4,13 @@
 import { z } from 'zod';
 import {
   createAdminAuthUser,
-  setCookie,
 } from './firebase-admin';
 import { createUser as createFirestoreUser } from './user-service';
 import { cookies } from 'next/headers';
 
-export type AuthState = {
-  message: string;
-  error: boolean;
-  success: boolean;
-};
-
 const regions = [
-  "Andina",
-  "Caribe",
-  "Pacífica",
-  "Orinoquía",
-  "Amazonía",
-  "Insular"
-];
+  "Andina", "Caribe", "Pacífica", "Orinoquía", "Amazonía", "Insular"
+] as const;
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres.' }),
@@ -33,6 +21,12 @@ const registerSchema = z.object({
   }),
 });
 
+export type AuthState = {
+  message: string;
+  errors?: z.ZodError<z.infer<typeof registerSchema>>['formErrors']['fieldErrors'];
+  success: boolean;
+};
+
 export async function registerUserAction(
   prevState: AuthState,
   formData: FormData
@@ -42,11 +36,9 @@ export async function registerUserAction(
   );
 
   if (!validatedFields.success) {
-    const errorMessages = validatedFields.error.flatten().fieldErrors;
-    const firstError = Object.values(errorMessages).flat().shift();
     return {
-      message: firstError || 'Error de validación. Por favor, revise los campos.',
-      error: true,
+      message: 'Error de validación. Por favor, revise los campos.',
+      errors: validatedFields.error.flatten().fieldErrors,
       success: false,
     };
   }
@@ -67,19 +59,17 @@ export async function registerUserAction(
       trackedCrops: []
     });
     
-    return { message: '¡Usuario registrado con éxito!', success: true, error: false };
+    return { message: '¡Usuario registrado con éxito!', success: true };
   } catch (error: any) {
-    console.error('Registration error:', error.code, error.message);
+    console.error('Registration error:', error);
      if (error.code === 'auth/email-already-exists') {
       return {
         message: 'Ya existe una cuenta con este correo electrónico.',
-        error: true,
         success: false,
       };
     }
     return {
       message: 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.',
-      error: true,
       success: false,
     };
   }
@@ -88,6 +78,4 @@ export async function registerUserAction(
 export async function logoutAction() {
     // Clear the auth cookie
     cookies().delete('session');
-    // It's important to also sign out from the client-side Firebase instance
-    // to clear its token cache. This should be handled on the client.
 }
