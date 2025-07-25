@@ -5,7 +5,7 @@ import { z } from 'zod';
 import {
   setCookie,
   signInWithEmail,
-  signUpWithEmail,
+  createAdminAuthUser,
 } from './firebase-admin';
 import { createUser as createFirestoreUser } from './user-service';
 
@@ -54,13 +54,13 @@ export async function registerUserAction(
   const { name, email, password, region } = validatedFields.data;
 
   try {
-    const { localId } = await signUpWithEmail({
+    const userRecord = await createAdminAuthUser({
       email,
       password,
       displayName: name,
     });
     
-    await createFirestoreUser(localId, {
+    await createFirestoreUser(userRecord.uid, {
       name,
       email,
       region,
@@ -70,7 +70,7 @@ export async function registerUserAction(
     return { message: '¡Usuario registrado con éxito!', success: true, error: false };
   } catch (error: any) {
     console.error('Registration error:', error.code, error.message);
-     if (error.code === 'auth/email-already-exists' || error.message?.includes('EMAIL_EXISTS')) {
+     if (error.code === 'auth/email-already-exists') {
       return {
         message: 'Ya existe una cuenta con este correo electrónico.',
         error: true,

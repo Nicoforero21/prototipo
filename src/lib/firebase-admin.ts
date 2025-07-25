@@ -110,38 +110,7 @@ export async function signInWithEmail(email:string, password:string):Promise<{id
     return { idToken: data.idToken };
 }
 
-export async function signUpWithEmail(properties: { email: string, password?: string, displayName?: string }):Promise<{localId: string, idToken: string}>{
-    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-     if (!apiKey || apiKey === 'YOUR_FIREBASE_WEB_API_KEY') {
-      throw new Error('NEXT_PUBLIC_FIREBASE_API_KEY is not set.');
-    }
-    const signUpEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
-    
-    const res = await fetch(signUpEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            email: properties.email, 
-            password: properties.password, 
-            displayName: properties.displayName,
-            returnSecureToken: true 
-        }),
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        console.error('Firebase sign-up error:', error.error.message);
-        if (error.error?.message?.includes('EMAIL_EXISTS')) {
-          throw new Error('auth/email-already-exists');
-        }
-        throw new Error('auth/internal-error');
-    }
-    
-    const data = await res.json();
-    return { localId: data.localId, idToken: data.idToken };
-}
-
-export async function createAdminAuthUser(properties: { email: string, password?: string, displayName?: string }) {
+export async function createAdminAuthUser(properties: { email: string, password?: string, displayName?: string }): Promise<UserRecord> {
     return auth.createUser(properties);
 }
 
