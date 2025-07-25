@@ -69,7 +69,7 @@ export async function registerUserAction(
       };
     }
     return {
-      message: 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.',
+      message: 'ocurrió un error en el servidor',
       success: false,
     };
   }
