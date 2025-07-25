@@ -35,26 +35,45 @@ function getServiceAccount() {
   }
 }
 
-// Initialize Firebase Admin
-const serviceAccount = getServiceAccount();
+// Initialize Firebase Admin only if it hasn't been initialized yet.
+let adminApp;
+try {
+  const serviceAccount = getServiceAccount();
+  if (!getApps().length) {
+    adminApp = initializeApp({
+      credential: cert(serviceAccount)
+    });
+  } else {
+    adminApp = getApp();
+  }
+} catch (error: any) {
+  console.error("Firebase Admin initialization failed:", error.message);
+  // We don't re-throw the error here, so the app can start.
+  // Functions that depend on adminApp will handle the uninitialized state.
+  adminApp = null;
+}
 
-const adminApp = !getApps().length ? initializeApp({
-    credential: cert(serviceAccount)
-}) : getApp();
 
-const auth = getAdminAuth(adminApp);
+const auth = adminApp ? getAdminAuth(adminApp) : null;
 
 export { auth as getAuth };
 
+async function verifyAuth() {
+  if (!auth) {
+    throw new Error("Firebase Admin SDK has not been initialized. Please check your FIREBASE_CREDENTIALS in .env");
+  }
+}
+
 export async function getAuthenticatedUser(): Promise<UserRecord | null> {
+    await verifyAuth();
     const session = cookies().get('session')?.value;
     if (!session) {
         return null;
     }
 
     try {
-        const decodedClaims = await auth.verifySessionCookie(session, true);
-        const user = await auth.getUser(decodedClaims.uid);
+        const decodedClaims = await auth!.verifySessionCookie(session, true);
+        const user = await auth!.getUser(decodedClaims.uid);
         return user;
     } catch (error) {
         // This is expected if the cookie is invalid.
@@ -65,9 +84,10 @@ export async function getAuthenticatedUser(): Promise<UserRecord | null> {
 
 
 export async function setCookie(idToken: string | null) {
+  await verifyAuth();
   const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
   if (idToken) {
-    const sessionCookie = await auth.createSessionCookie(idToken, { expiresIn });
+    const sessionCookie = await auth!.createSessionCookie(idToken, { expiresIn });
     cookies().set('session', sessionCookie, {
       maxAge: expiresIn,
       httpOnly: true,
@@ -84,5 +104,6 @@ export async function setCookie(idToken: string | null) {
 // This is to avoid directly exposing firebase-admin in client components.
 
 export async function createAdminAuthUser(properties: { email: string, password?: string, displayName?: string }): Promise<UserRecord> {
-    return auth.createUser(properties);
+    await verifyAuth();
+    return auth!.createUser(properties);
 }
