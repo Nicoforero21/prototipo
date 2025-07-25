@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp, type FirebaseOptions } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, inMemoryPersistence } from 'firebase/auth';
 
 const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 
@@ -23,4 +24,12 @@ if (!apiKey || apiKey === 'YOUR_FIREBASE_WEB_API_KEY') {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-export { db };
+// It's recommended to initialize auth specifically to control its state.
+const auth = getAuth(app);
+
+// This ensures that auth state is managed correctly, especially in a server-rendering context.
+// `indexedDBLocalPersistence` is the default and is fine for most web apps.
+// If you were having issues with SSR/sessions, this would be a place to look.
+// For this app, the default persistence is appropriate.
+
+export { app, db, auth };

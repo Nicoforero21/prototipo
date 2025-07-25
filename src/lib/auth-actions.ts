@@ -3,11 +3,11 @@
 
 import { z } from 'zod';
 import {
-  setCookie,
-  signInWithEmail,
   createAdminAuthUser,
+  setCookie,
 } from './firebase-admin';
 import { createUser as createFirestoreUser } from './user-service';
+import { cookies } from 'next/headers';
 
 export type AuthState = {
   message: string;
@@ -85,52 +85,9 @@ export async function registerUserAction(
   }
 }
 
-
-const loginSchema = z.object({
-  email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido.' }),
-  password: z.string().min(1, { message: 'La contraseña no puede estar vacía.' }),
-});
-
-export async function loginUserAction(
-  prevState: AuthState,
-  formData: FormData
-): Promise<AuthState> {
-  const validatedFields = loginSchema.safeParse(
-    Object.fromEntries(formData.entries())
-  );
-
-  if (!validatedFields.success) {
-    const errorMessages = validatedFields.error.flatten().fieldErrors;
-     return {
-      message: Object.values(errorMessages).flat().join(' '),
-      error: true,
-      success: false,
-    };
-  }
-
-  const { email, password } = validatedFields.data;
-
-  try {
-    const { idToken } = await signInWithEmail(email, password);
-    await setCookie(idToken);
-    
-    return { message: 'Inicio de sesión exitoso.', success: true, error: false };
-  } catch (error: any) {
-    console.error('Login error:', error.code, error.message);
-    let message = 'Ocurrió un error en el servidor. Por favor, inténtelo de nuevo.';
-
-    if (error.code === 'auth/invalid-credential' || error.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
-        message = 'Correo electrónico o contraseña incorrectos.';
-    }
-
-    return {
-      message,
-      error: true,
-      success: false,
-    };
-  }
-}
-
 export async function logoutAction() {
-    await setCookie(null);
+    // Clear the auth cookie
+    cookies().delete('session');
+    // It's important to also sign out from the client-side Firebase instance
+    // to clear its token cache. This should be handled on the client.
 }
