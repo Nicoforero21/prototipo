@@ -58,3 +58,21 @@ This is used for the AI features of the application, like plant detection.
 3.  **Create API Key:** In the menu that opens, click "Create API key in new project". A new key will be generated for you.
 4.  **Copy the API Key:** Copy the generated key.
 5.  **Update the `.env` file:** Paste the key into the `GEMINI_API_KEY` variable in your `.env` file.
+
+### 4. Google Maps API Key (for `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`)
+
+This is used for the interactive map feature.
+
+1.  **Go to Google Cloud Console:** [https://console.cloud.google.com/](https://console.cloud.google.com/)
+2.  **Select or Create a Project:** Ensure you are in the same project you are using for Firebase.
+3.  **Enable APIs:**
+    *   In the navigation menu, go to **APIs & Services > Library**.
+    *   Search for and enable the **Maps JavaScript API**.
+4.  **Create API Key:**
+    *   Go to **APIs & Services > Credentials**.
+    *   Click **Create Credentials > API key**.
+    *   An API key will be created. **Important:** Click **Restrict Key**.
+    *   Under **Application restrictions**, select **HTTP referrers (web sites)**. Add your application's URL (e.g., `localhost:9002/*` for development).
+    *   Under **API restrictions**, select **Restrict key** and choose the **Maps JavaScript API**.
+5.  **Copy the API Key:** Copy the generated and restricted key.
+6.  **Update the `.env` file:** Paste the key into the `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` variable in your `.env` file.

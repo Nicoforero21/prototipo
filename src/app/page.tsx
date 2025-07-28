@@ -27,8 +27,8 @@ export default function Home() {
 
       <section className="py-12">
         <h2 className="text-3xl font-headline font-bold text-center mb-2">Mapa Interactivo de Cultivos</h2>
-        <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales por departamento. Pasa el cursor sobre una región o un cultivo.</p>
-        <Card className="overflow-hidden shadow-lg">
+        <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales para diferentes zonas. Haz clic en un marcador para más detalles.</p>
+        <Card className="overflow-hidden shadow-lg rounded-lg">
            <InteractiveColombiaMap />
         </Card>
       </section>
