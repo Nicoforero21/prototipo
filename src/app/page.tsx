@@ -5,7 +5,16 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { mockCrops } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
-import { InteractiveColombiaMap } from '@/components/interactive-colombia-map';
+import dynamic from 'next/dynamic';
+
+const InteractiveColombiaMap = dynamic(
+  () => import('@/components/interactive-colombia-map').then((mod) => mod.InteractiveColombiaMap),
+  { 
+    ssr: false,
+    loading: () => <div className="h-[600px] w-full bg-muted animate-pulse rounded-lg" />
+  }
+);
+
 
 export default function Home() {
   const difficultyColors = {

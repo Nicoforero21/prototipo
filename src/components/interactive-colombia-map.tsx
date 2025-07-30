@@ -1,152 +1,114 @@
-
 'use client';
 
-import { useState } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from 'react-simple-maps';
+import { useState, useEffect } from 'react';
+import { MapContainer, GeoJSON, Marker, Tooltip, TileLayer } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import Link from 'next/link';
 import * as topojson from 'topojson-client';
 import type { Topology } from 'topojson-specification';
 import { useToast } from '@/hooks/use-toast';
 import colombiaTopoJSON from '@/lib/colombia-departments.json';
+import type { GeoJsonObject } from 'geojson';
+
+// Fix for default icon issue with webpack
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 
 const cropsOnMap = [
-  {
-    slug: 'lechuga',
-    coordinates: [-73.5, 5.0] as [number, number],
-    name: 'Lechuga',
-    emoji: '🥬',
-  },
-  {
-    slug: 'tomate',
-    coordinates: [-76.5, 3.4] as [number, number],
-    name: 'Tomate',
-    emoji: '🍅',
-  },
-  {
-    slug: 'maiz',
-    coordinates: [-75.2, 8.7] as [number, number],
-    name: 'Maíz',
-    emoji: '🌽',
-  },
+  { slug: 'lechuga', coordinates: [5.0, -73.5] as [number, number], name: 'Lechuga', emoji: '🥬' },
+  { slug: 'tomate', coordinates: [3.4, -76.5] as [number, number], name: 'Tomate', emoji: '🍅' },
+  { slug: 'maiz', coordinates: [8.7, -75.2] as [number, number], name: 'Maíz', emoji: '🌽' },
 ];
 
 const colombiaGeoJSON = topojson.feature(
   colombiaTopoJSON as unknown as Topology,
   colombiaTopoJSON.objects.COL_adm1
-);
+) as GeoJsonObject;
+
 
 export function InteractiveColombiaMap() {
-  const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
   const { toast } = useToast();
 
   const handleDepartmentClick = (deptName: string) => {
     toast({
       title: "Funcionalidad en desarrollo",
       description: `Próximamente podrás ver información detallada para el departamento de ${deptName}.`,
-    })
+    });
+  };
+
+  const geoJsonStyle = {
+    fillColor: 'hsl(var(--primary) / 0.2)',
+    weight: 1,
+    opacity: 1,
+    color: 'hsl(var(--primary))',
+    fillOpacity: 0.5
+  };
+  
+  const onEachFeature = (feature: any, layer: L.Layer) => {
+    if (feature.properties && feature.properties.NAME_1) {
+      layer.on({
+        mouseover: (e) => {
+          e.target.setStyle({
+            fillColor: 'hsl(var(--accent))',
+            weight: 2,
+          });
+          e.target.bringToFront();
+        },
+        mouseout: (e) => {
+          e.target.setStyle(geoJsonStyle);
+        },
+        click: () => handleDepartmentClick(feature.properties.NAME_1)
+      });
+      layer.bindTooltip(feature.properties.NAME_1, { sticky: true });
+    }
+  };
+
+  const createEmojiIcon = (emoji: string) => {
+    return L.divIcon({
+      html: `<div style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">${emoji}</div>`,
+      className: 'bg-transparent border-0',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
   }
 
   return (
-    <div className="relative bg-blue-100/50 h-[600px] w-full" >
-       <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{
-          scale: 2300,
-          center: [-74, 4.5],
-        }}
-        style={{ width: '100%', height: '100%' }}
-        onMouseMove={(e) => {
-            if (tooltip) {
-                const { clientX, clientY } = e;
-                setTooltip({ ...tooltip, x: clientX, y: clientY });
-            }
-        }}
+      <MapContainer 
+        center={[4.5, -74]} 
+        zoom={6} 
+        scrollWheelZoom={true} 
+        style={{ height: '600px', width: '100%' }}
+        className='z-0'
       >
-        <Geographies geography={colombiaGeoJSON}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                onClick={() => handleDepartmentClick(geo.properties.NAME_1)}
-                onMouseEnter={(e) => {
-                  const { NAME_1: name } = geo.properties;
-                  const { clientX, clientY } = e;
-                  setTooltip({ content: name, x: clientX, y: clientY });
-                }}
-                onMouseLeave={() => {
-                  setTooltip(null);
-                }}
-                className="cursor-pointer"
-                style={{
-                  default: {
-                    fill: 'hsl(var(--primary) / 0.2)',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 0.75,
-                    outline: 'none',
-                  },
-                  hover: {
-                    fill: 'hsl(var(--accent))',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 1,
-                    outline: 'none',
-                  },
-                  pressed: {
-                    fill: 'hsl(var(--accent-foreground))',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 1,
-                    outline: 'none',
-                  },
-                }}
-              />
-            ))
-          }
-        </Geographies>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <GeoJSON 
+          data={colombiaGeoJSON} 
+          style={geoJsonStyle}
+          onEachFeature={onEachFeature}
+        />
         {cropsOnMap.map(({ name, coordinates, slug, emoji }) => (
-            <Marker key={name} coordinates={coordinates}>
-                <Link href={`/cultivos/${slug}`}>
-                    <g
-                        onMouseEnter={(e) => {
-                            const { clientX, clientY } = e;
-                            setTooltip({ content: `Cultivo: ${name}`, x: clientX, y: clientY });
-                        }}
-                        onMouseLeave={() => {
-                            setTooltip(null);
-                        }}
-                        className="cursor-pointer group"
-                    >
-                        <circle r="16" fill="hsl(var(--card))" stroke="hsl(var(--card-foreground) / 0.5)" strokeWidth={1} className="group-hover:stroke-primary transition-colors" />
-                        <text
-                            textAnchor="middle"
-                            y="7"
-                            className="text-xl group-hover:scale-125 transition-transform duration-200 origin-center select-none"
-                        >
-                            {emoji}
-                        </text>
-                    </g>
-                </Link>
-            </Marker>
+          <Marker 
+            key={name} 
+            position={coordinates}
+            icon={createEmojiIcon(emoji)}
+            eventHandlers={{
+                click: () => {
+                    window.location.href = `/cultivos/${slug}`;
+                }
+            }}
+          >
+            <Tooltip>Cultivo: {name}</Tooltip>
+          </Marker>
         ))}
-      </ComposableMap>
-      {tooltip && (
-        <div
-          style={{
-            position: 'fixed',
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: 'translate(15px, -30px)',
-            pointerEvents: 'none',
-          }}
-          className="z-50 bg-card text-card-foreground p-2 rounded-md shadow-lg text-sm font-semibold border"
-        >
-          {tooltip.content}
-        </div>
-      )}
-    </div>
+      </MapContainer>
   );
 }
