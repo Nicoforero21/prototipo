@@ -52,17 +52,18 @@ export function InteractiveColombiaMap() {
   }
 
   return (
-    <div className="relative bg-blue-100/50">
-      <ComposableMap
+    <div className="relative bg-blue-100/50 h-[600px] w-full" >
+       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
           scale: 2300,
           center: [-74, 4.5],
         }}
-        style={{ width: '100%', height: 'auto' }}
+        style={{ width: '100%', height: '100%' }}
         onMouseMove={(e) => {
             if (tooltip) {
-                setTooltip({ ...tooltip, x: e.clientX, y: e.clientY });
+                const { clientX, clientY } = e;
+                setTooltip({ ...tooltip, x: clientX, y: clientY });
             }
         }}
       >
@@ -75,7 +76,8 @@ export function InteractiveColombiaMap() {
                 onClick={() => handleDepartmentClick(geo.properties.NAME_1)}
                 onMouseEnter={(e) => {
                   const { NAME_1: name } = geo.properties;
-                  setTooltip({ content: name, x: e.clientX, y: e.clientY });
+                  const { clientX, clientY } = e;
+                  setTooltip({ content: name, x: clientX, y: clientY });
                 }}
                 onMouseLeave={() => {
                   setTooltip(null);
@@ -110,7 +112,8 @@ export function InteractiveColombiaMap() {
                 <Link href={`/cultivos/${slug}`}>
                     <g
                         onMouseEnter={(e) => {
-                            setTooltip({ content: `Cultivo: ${name}`, x: e.clientX, y: e.clientY });
+                            const { clientX, clientY } = e;
+                            setTooltip({ content: `Cultivo: ${name}`, x: clientX, y: clientY });
                         }}
                         onMouseLeave={() => {
                             setTooltip(null);
@@ -136,7 +139,7 @@ export function InteractiveColombiaMap() {
             position: 'fixed',
             left: tooltip.x,
             top: tooltip.y,
-            transform: 'translate(15px, 15px)',
+            transform: 'translate(15px, -30px)',
             pointerEvents: 'none',
           }}
           className="z-50 bg-card text-card-foreground p-2 rounded-md shadow-lg text-sm font-semibold border"
