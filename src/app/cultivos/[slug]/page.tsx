@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Bug, Wind, FlaskConical } from 'lucide-react';
+import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Bug, Wind, FlaskConical } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { hasUserCrop } from '@/lib/user-service';
 import { SubmitButton } from '@/components/submit-button';
@@ -116,7 +116,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-2xl flex items-center">
-                  <CheckCircle className="mr-2 text-primary" /> Guía de Siembra
+                  <CheckCircle2 className="mr-2 text-primary" /> Guía de Siembra
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

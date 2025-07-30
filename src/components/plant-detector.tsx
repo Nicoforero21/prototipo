@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { SubmitButton } from '@/components/submit-button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from 'next/image';
-import { UploadCloud, CheckCircle, AlertTriangle, Leaf, HeartPulse, Scale, Sun, Droplets, Lightbulb } from 'lucide-react';
+import { UploadCloud, CheckCircle2, AlertTriangle, Leaf, HeartPulse, Scale, Sun, Droplets, Lightbulb } from 'lucide-react';
 
 export default function PlantDetector() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -107,7 +107,7 @@ export default function PlantDetector() {
                 <CardContent className="space-y-2">
                   <div className="flex items-center">
                     {formState.result.healthAssessment.isHealthy ? 
-                      <><CheckCircle className="mr-2 text-green-500" /> <span className="font-bold">Saludable</span></> :
+                      <><CheckCircle2 className="mr-2 text-green-500" /> <span className="font-bold">Saludable</span></> :
                       <><AlertTriangle className="mr-2 text-yellow-500" /> <span className="font-bold">Necesita atención</span></>
                     }
                   </div>
@@ -135,7 +135,7 @@ export default function PlantDetector() {
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <CheckCircle className="mr-3 h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
+                  <CheckCircle2 className="mr-3 h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h4 className="font-bold">Consejos Generales</h4>
                     <p className="text-muted-foreground">{formState.result.careRecommendations.generalTips}</p>
