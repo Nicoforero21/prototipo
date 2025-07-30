@@ -33,12 +33,7 @@ const colombiaGeoJSON = topojson.feature(
 
 export function InteractiveColombiaMap() {
   const { toast } = useToast();
-  const [isMounted, setIsMounted] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleDepartmentClick = (deptName: string) => {
     toast({
@@ -83,11 +78,6 @@ export function InteractiveColombiaMap() {
     });
   }
 
-  // Render a placeholder until the component is mounted on the client
-  if (!isMounted) {
-    return <div className="h-[600px] w-full bg-muted animate-pulse rounded-lg" />;
-  }
-
   return (
       <MapContainer 
         center={[4.5, -74]} 
@@ -95,7 +85,7 @@ export function InteractiveColombiaMap() {
         scrollWheelZoom={true} 
         style={{ height: '600px', width: '100%' }}
         className='z-0'
-        whenCreated={mapInstance => { mapRef.current = mapInstance }}
+        whenCreated={map => { mapRef.current = map }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
