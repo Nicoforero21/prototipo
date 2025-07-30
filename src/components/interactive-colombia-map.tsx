@@ -34,6 +34,11 @@ const colombiaGeoJSON = topojson.feature(
 
 export function InteractiveColombiaMap() {
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleDepartmentClick = (deptName: string) => {
     toast({
@@ -76,6 +81,11 @@ export function InteractiveColombiaMap() {
       iconSize: [30, 30],
       iconAnchor: [15, 15]
     });
+  }
+
+  // Render a placeholder until the component is mounted on the client
+  if (!isMounted) {
+    return <div className="h-[600px] w-full bg-muted animate-pulse rounded-lg" />;
   }
 
   return (
