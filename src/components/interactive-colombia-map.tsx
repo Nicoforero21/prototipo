@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MapContainer, GeoJSON, Marker, Tooltip, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import Link from 'next/link';
+import 'leaflet/dist/leaflet.css'; // Asegúrate de importar los estilos de Leaflet
 import * as topojson from 'topojson-client';
 import type { Topology } from 'topojson-specification';
 import { useToast } from '@/hooks/use-toast';
@@ -35,6 +34,7 @@ const colombiaGeoJSON = topojson.feature(
 export function InteractiveColombiaMap() {
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
+  const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -95,6 +95,7 @@ export function InteractiveColombiaMap() {
         scrollWheelZoom={true} 
         style={{ height: '600px', width: '100%' }}
         className='z-0'
+        whenCreated={mapInstance => { mapRef.current = mapInstance }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
