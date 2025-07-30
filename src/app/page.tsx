@@ -5,15 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { mockCrops } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const InteractiveColombiaMap = dynamic(
-  () => import('@/components/interactive-colombia-map').then((mod) => mod.InteractiveColombiaMap),
-  { 
-    ssr: false,
-    loading: () => <div className="h-[600px] w-full bg-muted animate-pulse rounded-lg" />
-  }
-);
+import { MapLoader } from '@/components/map-loader';
 
 
 export default function Home() {
@@ -38,7 +30,7 @@ export default function Home() {
         <h2 className="text-3xl font-headline font-bold text-center mb-2">Mapa Interactivo de Cultivos</h2>
         <p className="text-center text-muted-foreground mb-8">Explora los cultivos ideales para diferentes zonas. Haz clic en un marcador para más detalles.</p>
         <Card className="overflow-hidden shadow-lg rounded-lg">
-           <InteractiveColombiaMap />
+           <MapLoader />
         </Card>
       </section>
 
