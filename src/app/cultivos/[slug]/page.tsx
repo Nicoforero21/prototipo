@@ -1,6 +1,6 @@
 import { mockCrops } from '@/lib/data';
 import type { Crop } from '@/types';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -92,9 +92,10 @@ export default async function CropPage({ params }: { params: { slug: string } })
 
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl flex items-center">
-                  <Clock className="mr-2 text-primary" /> Ciclo de Vida
-                </CardTitle>
+                <div className="flex items-center">
+                    <Clock className="mr-2 text-primary" />
+                    <CardTitle className="font-headline text-2xl">Ciclo de Vida</CardTitle>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="relative">
@@ -115,9 +116,10 @@ export default async function CropPage({ params }: { params: { slug: string } })
 
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl flex items-center">
-                  <CheckCircle2 className="mr-2 text-primary" /> Guía de Siembra
-                </CardTitle>
+                <div className="flex items-center">
+                    <CheckCircle2 className="mr-2 text-primary" />
+                    <CardTitle className="font-headline text-2xl">Guía de Siembra</CardTitle>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -147,9 +149,10 @@ export default async function CropPage({ params }: { params: { slug: string } })
                 data-ai-hint={crop.aiHint ?? ''}
               />
               <CardHeader>
-                <CardTitle className="font-headline text-2xl flex items-center">
-                  <HeartPulse className="mr-2 text-primary" /> Requisitos Técnicos
-                </CardTitle>
+                <div className="flex items-center">
+                  <HeartPulse className="mr-2 text-primary" />
+                  <CardTitle className="font-headline text-2xl">Requisitos Técnicos</CardTitle>
+                </div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
