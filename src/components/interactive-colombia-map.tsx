@@ -1,34 +1,37 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from 'react-simple-maps';
-import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import colombiaTopoJSON from '@/lib/colombia-departments.json';
 import * as topojson from 'topojson-client';
 import type { Topology } from 'topojson-specification';
 import { useToast } from '@/hooks/use-toast';
-import colombiaTopoJSON from '@/lib/colombia-departments.json';
+
+// Corrige el problema del icono predeterminado en Leaflet con bundlers como Webpack
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+});
 
 const cropsOnMap = [
   {
     slug: 'lechuga',
-    coordinates: [-73.5, 5.0] as [number, number],
+    coordinates: [5.0, -73.5] as [number, number],
     name: 'Lechuga',
     emoji: '🥬',
   },
   {
     slug: 'tomate',
-    coordinates: [-76.5, 3.4] as [number, number],
+    coordinates: [3.4, -76.5] as [number, number],
     name: 'Tomate',
     emoji: '🍅',
   },
   {
     slug: 'maiz',
-    coordinates: [-75.2, 8.7] as [number, number],
+    coordinates: [8.7, -75.2] as [number, number],
     name: 'Maíz',
     emoji: '🌽',
   },
@@ -40,109 +43,82 @@ const colombiaGeoJSON = topojson.feature(
 );
 
 export function InteractiveColombiaMap() {
-  const [tooltip, setTooltip] = useState<{ content: string; x: number; y: number } | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const handleDepartmentClick = (deptName: string) => {
-    toast({
-      title: "Funcionalidad en desarrollo",
-      description: `Próximamente podrás ver información detallada para el departamento de ${deptName}.`,
-    })
-  }
+  useEffect(() => {
+    // Solo inicializa el mapa si el contenedor existe y el mapa no ha sido creado
+    if (mapContainerRef.current && !mapRef.current) {
+      const map = L.map(mapContainerRef.current, {
+        center: [4.5, -74],
+        zoom: 5.5,
+        scrollWheelZoom: true,
+      });
 
-  return (
-    <div className="relative bg-blue-100/50">
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{
-          scale: 2300,
-          center: [-74, 4.5],
-        }}
-        style={{ width: '100%', height: 'auto' }}
-        onMouseMove={(e) => {
-            if (tooltip) {
-                setTooltip({ ...tooltip, x: e.clientX, y: e.clientY });
-            }
-        }}
-      >
-        <Geographies geography={colombiaGeoJSON}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                onClick={() => handleDepartmentClick(geo.properties.NAME_1)}
-                onMouseEnter={(e) => {
-                  const { NAME_1: name } = geo.properties;
-                  setTooltip({ content: name, x: e.clientX, y: e.clientY });
-                }}
-                onMouseLeave={() => {
-                  setTooltip(null);
-                }}
-                className="cursor-pointer"
-                style={{
-                  default: {
-                    fill: 'hsl(var(--primary) / 0.2)',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 0.75,
-                    outline: 'none',
-                  },
-                  hover: {
-                    fill: 'hsl(var(--accent))',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 1,
-                    outline: 'none',
-                  },
-                  pressed: {
-                    fill: 'hsl(var(--accent-foreground))',
-                    stroke: 'hsl(var(--primary))',
-                    strokeWidth: 1,
-                    outline: 'none',
-                  },
-                }}
-              />
-            ))
-          }
-        </Geographies>
-        {cropsOnMap.map(({ name, coordinates, slug, emoji }) => (
-            <Marker key={name} coordinates={coordinates}>
-                <Link href={`/cultivos/${slug}`}>
-                    <g
-                        onMouseEnter={(e) => {
-                            setTooltip({ content: `Cultivo: ${name}`, x: e.clientX, y: e.clientY });
-                        }}
-                        onMouseLeave={() => {
-                            setTooltip(null);
-                        }}
-                        className="cursor-pointer group"
-                    >
-                        <circle r="16" fill="hsl(var(--card))" stroke="hsl(var(--card-foreground) / 0.5)" strokeWidth={1} className="group-hover:stroke-primary transition-colors" />
-                        <text
-                            textAnchor="middle"
-                            y="7"
-                            className="text-xl group-hover:scale-125 transition-transform duration-200 origin-center select-none"
-                        >
-                            {emoji}
-                        </text>
-                    </g>
-                </Link>
-            </Marker>
-        ))}
-      </ComposableMap>
-      {tooltip && (
-        <div
-          style={{
-            position: 'fixed',
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: 'translate(15px, 15px)',
-            pointerEvents: 'none',
-          }}
-          className="z-50 bg-card text-card-foreground p-2 rounded-md shadow-lg text-sm font-semibold border"
-        >
-          {tooltip.content}
-        </div>
-      )}
-    </div>
-  );
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      const geoJsonLayer = L.geoJSON(colombiaGeoJSON as any, {
+        style: {
+          color: 'hsl(var(--primary))',
+          weight: 1,
+          opacity: 0.8,
+          fillColor: 'hsl(var(--primary) / 0.2)',
+          fillOpacity: 0.5,
+        },
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseover: (e) => {
+              const target = e.target;
+              target.setStyle({
+                weight: 2,
+                color: 'hsl(var(--accent-foreground))',
+                fillColor: 'hsl(var(--accent))',
+              });
+              target.bindTooltip(feature.properties.NAME_1).openTooltip();
+            },
+            mouseout: (e) => {
+              geoJsonLayer.resetStyle(e.target);
+              e.target.closeTooltip();
+            },
+            click: () => {
+                 toast({
+                    title: "Funcionalidad en desarrollo",
+                    description: `Próximamente podrás ver información detallada para el departamento de ${feature.properties.NAME_1}.`,
+                })
+            },
+          });
+        },
+      }).addTo(map);
+
+      cropsOnMap.forEach(({ name, coordinates, slug, emoji }) => {
+        const icon = L.divIcon({
+          html: `<div class="bg-card rounded-full w-8 h-8 flex items-center justify-center text-xl shadow-md border border-card-foreground/50">${emoji}</div>`,
+          className: 'bg-transparent border-none',
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+        });
+
+        const marker = L.marker(coordinates, { icon }).addTo(map);
+        marker.bindTooltip(`Cultivo: ${name}`);
+        marker.on('click', () => {
+          window.location.href = `/cultivos/${slug}`;
+        });
+      });
+
+      mapRef.current = map;
+    }
+
+    // Función de limpieza: se ejecuta cuando el componente se desmonta
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, [toast]); // Se ejecuta solo una vez al montar el componente
+
+  return <div ref={mapContainerRef} style={{ height: '600px', width: '100%' }} className="rounded-lg bg-muted" />;
 }
