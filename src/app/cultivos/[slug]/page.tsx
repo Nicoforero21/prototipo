@@ -38,11 +38,11 @@ export default async function CropPage({ params }: { params: { slug: string } })
   const userHasCrop = user ? await hasUserCrop(user.uid, crop.slug) : false;
 
   const requirements = [
-    { icon: <Droplets />, label: "Riego", value: crop.requirements.watering },
-    { icon: <Wind />, label: "Clima", value: crop.requirements.climate },
-    { icon: <RulerHorizontal />, label: "Espacio", value: crop.requirements.space },
-    { icon: <Bug />, label: "Plagas Comunes", value: crop.requirements.pests },
-    { icon: <FlaskConical />, label: "Fertilizantes", value: crop.requirements.fertilizers },
+    { icon: Droplets, label: "Riego", value: crop.requirements.watering },
+    { icon: Wind, label: "Clima", value: crop.requirements.climate },
+    { icon: RulerHorizontal, label: "Espacio", value: crop.requirements.space },
+    { icon: Bug, label: "Plagas Comunes", value: crop.requirements.pests },
+    { icon: FlaskConical, label: "Fertilizantes", value: crop.requirements.fertilizers },
   ];
 
   return (
@@ -156,15 +156,18 @@ export default async function CropPage({ params }: { params: { slug: string } })
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
-                  {requirements.map((req) => (
-                    <li key={req.label} className="flex items-start">
-                      <div className="text-primary mr-3 mt-1">{req.icon}</div>
-                      <div>
-                        <p className="font-semibold">{req.label}</p>
-                        <p className="text-sm text-muted-foreground">{req.value}</p>
-                      </div>
-                    </li>
-                  ))}
+                  {requirements.map((req) => {
+                    const Icon = req.icon;
+                    return (
+                      <li key={req.label} className="flex items-start">
+                        <div className="text-primary mr-3 mt-1"><Icon /></div>
+                        <div>
+                          <p className="font-semibold">{req.label}</p>
+                          <p className="text-sm text-muted-foreground">{req.value}</p>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </CardContent>
             </Card>
