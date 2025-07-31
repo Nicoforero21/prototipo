@@ -63,7 +63,7 @@ const detectPlantSpeciesPrompt = ai.definePrompt({
   *   Da recomendaciones sobre la cantidad y tipo de luz solar que necesita (sunlight).
   *   Ofrece consejos generales adicionales (generalTips) para mantener la planta saludable o para tratar los problemas detectados.
 
-  Haz referencia a la planta en la siguiente foto: {{media url=photoDataUri}}.
+  Haz referencia a la planta en la siguiente foto:
 
   Asegúrate de que tu respuesta esté bien estructurada y sea fácil de entender para un jardinero aficionado.`,
 });
