@@ -2,11 +2,9 @@
 import { config } from 'dotenv';
 config({ path: '.env' });
 
-import { initializeApp, getApps, cert, getApp } from 'firebase-admin/app';
+import { initializeApp, getApps, cert, getApp, type App } from 'firebase-admin/app';
 import { getAuth as getAdminAuth, UserRecord } from 'firebase-admin/auth';
 import { cookies } from 'next/headers';
-import { getAuth, signInWithEmailAndPassword, getIdToken } from 'firebase/auth';
-import { app as clientApp } from '@/lib/firebase';
 
 // This function parses the FIREBASE_CREDENTIALS environment variable
 // and returns a service account object. It throws an error if the
@@ -35,26 +33,26 @@ function getServiceAccount() {
   }
 }
 
-// Initialize Firebase Admin only if it hasn't been initialized yet.
-let adminApp;
-try {
-  const serviceAccount = getServiceAccount();
-  if (!getApps().length) {
-    adminApp = initializeApp({
-      credential: cert(serviceAccount)
-    });
-  } else {
-    adminApp = getApp();
-  }
-} catch (error: any) {
-  console.error("Firebase Admin initialization failed:", error.message);
-  // We don't re-throw the error here, so the app can start.
-  // Functions that depend on adminApp will handle the uninitialized state.
-  adminApp = null;
+function initializeAdminApp(): App {
+    if (getApps().length > 0) {
+        return getApp();
+    }
+    
+    try {
+        const serviceAccount = getServiceAccount();
+        return initializeApp({
+            credential: cert(serviceAccount)
+        });
+    } catch (error: any) {
+        console.error("Firebase Admin initialization failed:", error.message);
+        // Re-throw the error to be caught by functions that need the admin app
+        throw new Error(`Firebase Admin SDK could not be initialized. Please check your FIREBASE_CREDENTIALS in .env. Original error: ${error.message}`);
+    }
 }
 
+const adminApp = initializeAdminApp();
+const auth = getAdminAuth(adminApp);
 
-const auth = adminApp ? getAdminAuth(adminApp) : null;
 
 export { auth as getAuth };
 
@@ -65,18 +63,18 @@ async function verifyAuth() {
 }
 
 export async function getAuthenticatedUser(): Promise<UserRecord | null> {
-    await verifyAuth();
     const session = cookies().get('session')?.value;
     if (!session) {
         return null;
     }
 
     try {
-        const decodedClaims = await auth!.verifySessionCookie(session, true);
-        const user = await auth!.getUser(decodedClaims.uid);
+        await verifyAuth();
+        const decodedClaims = await auth.verifySessionCookie(session, true);
+        const user = await auth.getUser(decodedClaims.uid);
         return user;
     } catch (error) {
-        // This is expected if the cookie is invalid.
+        // This is expected if the cookie is invalid or admin SDK is not initialized.
         // It's not a server error.
         return null;
     }
@@ -87,7 +85,7 @@ export async function setCookie(idToken: string | null) {
   await verifyAuth();
   const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
   if (idToken) {
-    const sessionCookie = await auth!.createSessionCookie(idToken, { expiresIn });
+    const sessionCookie = await auth.createSessionCookie(idToken, { expiresIn });
     cookies().set('session', sessionCookie, {
       maxAge: expiresIn,
       httpOnly: true,
@@ -105,5 +103,5 @@ export async function setCookie(idToken: string | null) {
 
 export async function createAdminAuthUser(properties: { email: string, password?: string, displayName?: string }): Promise<UserRecord> {
     await verifyAuth();
-    return auth!.createUser(properties);
+    return auth.createUser(properties);
 }
