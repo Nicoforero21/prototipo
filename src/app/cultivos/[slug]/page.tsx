@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Bug, Wind, FlaskConical } from 'lucide-react';
+import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Wind, FlaskConical, Bug } from 'lucide-react';
 import { getAuthenticatedUser } from '@/lib/firebase-admin';
 import { hasUserCrop } from '@/lib/user-service';
 import { SubmitButton } from '@/components/submit-button';
@@ -94,7 +94,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
               <CardHeader>
                 <div className="flex items-center">
                     <Clock className="mr-2 text-primary" />
-                    <CardTitle className="font-headline text-2xl">Ciclo de Vida</CardTitle>
+                    <CardTitle>Ciclo de Vida</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
@@ -118,7 +118,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
               <CardHeader>
                 <div className="flex items-center">
                     <CheckCircle2 className="mr-2 text-primary" />
-                    <CardTitle className="font-headline text-2xl">Guía de Siembra</CardTitle>
+                    <CardTitle>Guía de Siembra</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -151,7 +151,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
               <CardHeader>
                 <div className="flex items-center">
                   <HeartPulse className="mr-2 text-primary" />
-                  <CardTitle className="font-headline text-2xl">Requisitos Técnicos</CardTitle>
+                  <CardTitle>Requisitos Técnicos</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
@@ -160,7 +160,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
                     const Icon = req.icon;
                     return (
                       <li key={req.label} className="flex items-start">
-                        <div className="text-primary mr-3 mt-1"><Icon /></div>
+                        <div className="text-primary mr-3 mt-1"><Icon className="h-5 w-5"/></div>
                         <div>
                           <p className="font-semibold">{req.label}</p>
                           <p className="text-sm text-muted-foreground">{req.value}</p>
