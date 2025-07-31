@@ -4,6 +4,7 @@ config({ path: '.env' });
 
 import { initializeApp, getApps, cert, getApp, type App } from 'firebase-admin/app';
 import { getAuth as getAdminAuth, UserRecord } from 'firebase-admin/auth';
+import { getFirestore as getAdminFirestore } from 'firebase-admin/firestore';
 import { cookies } from 'next/headers';
 
 // This function parses the FIREBASE_CREDENTIALS environment variable
@@ -52,9 +53,10 @@ function initializeAdminApp(): App {
 
 const adminApp = initializeAdminApp();
 const auth = getAdminAuth(adminApp);
+const adminDb = getAdminFirestore(adminApp);
 
 
-export { auth as getAuth };
+export { auth as getAuth, adminDb };
 
 async function verifyAuth() {
   if (!auth) {
