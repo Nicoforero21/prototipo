@@ -116,3 +116,31 @@ Aquí encontrarás dos guiones detallados para crear videos sobre la plataforma.
 *   **(Visual):** La persona ahora riega felizmente una planta sana y vibrante. Aparece el logo de "Cultiva Colombia" en grande.
 *   **(Voz en off):** "¡Transforma tu mano para las plantas! Es gratis."
 *   **(Texto en pantalla):** ¡Pruébala ya! Link en la bio.
+
+---
+
+## Guion 4: Demo Rápida (Screen Share)
+
+**Título del video:** Explora Cultiva Colombia en 60 Segundos
+**Tono:** Directo, informativo y rápido.
+**Música:** Música de fondo suave, sin distracciones.
+
+**(0:00-0:10) - Inicio y Mapa**
+*   **(Visual):** La página de inicio (`/`) está abierta. El cursor se mueve sobre el mapa interactivo.
+*   **(Voz en off):** "Hola, vamos a explorar Cultiva Colombia. En la página principal, tienes un mapa interactivo para ver qué cultivos son ideales para cada zona del país."
+
+**(0:11-0:25) - Ficha de Cultivo**
+*   **(Visual):** Haz clic en un marcador del mapa (ej. Tomate). Navega a la página del cultivo (`/cultivos/tomate`). Desplázate lentamente, mostrando la descripción, requisitos y guía de siembra.
+*   **(Voz en off):** "Al hacer clic, accedes a la ficha completa. Aquí encuentras toda la información: su dificultad, ciclo de vida y guías de cuidado."
+
+**(0:26-0:45) - Detección con IA**
+*   **(Visual):** Navega a "Detectar con IA" (`/detectar`). Arrastra y suelta una imagen de una planta. Muestra los resultados que aparecen: nombre, salud y recomendaciones.
+*   **(Voz en off):** "En la sección de detección, puedes subir una foto. La inteligencia artificial la identifica, te dice si está sana y te da consejos para cuidarla."
+
+**(0:46-0:55) - Recursos y Panel de Usuario**
+*   **(Visual):** Navega a "Recursos" (`/recursos`), mostrando las guías. Luego, ve a "Mi Panel" (`/dashboard`) mostrando un cultivo añadido.
+*   **(Voz en off):** "También tienes recursos pedagógicos descargables. Y si creas una cuenta, puedes añadir tus plantas a un panel personal para seguir su progreso."
+
+**(0:56-1:00) - Cierre**
+*   **(Visual):** Vuelve a la página de inicio. El cursor se queda quieto.
+*   **(Voz en off):** "Eso es todo. Una herramienta simple y poderosa para aprender a cultivar. ¡Pruébala!"
