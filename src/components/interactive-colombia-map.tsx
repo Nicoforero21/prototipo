@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -120,5 +121,5 @@ export function InteractiveColombiaMap() {
     };
   }, [toast]); // Se ejecuta solo una vez al montar el componente
 
-  return <div ref={mapContainerRef} style={{ height: '600px', width: '100%' }} className="rounded-lg bg-muted" />;
+  return <div ref={mapContainerRef} style={{ height: '600px', width: '100%' }} className="rounded-lg bg-muted z-0" />;
 }
