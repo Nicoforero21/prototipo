@@ -80,3 +80,39 @@ Aquí encontrarás dos guiones detallados para crear videos sobre la plataforma.
 **(4:21-4:40) - Conclusión**
 *   **(Visual):** Volver al diagrama de arquitectura del principio.
 *   **(Voz en off):** "En resumen, 'Cultiva Colombia' es un ejemplo práctico de cómo combinar la renderización del lado del servidor de Next.js para el rendimiento, Firebase para un backend robusto y seguro, y Genkit para integrar de forma estructurada y fiable las potentes capacidades de la IA generativa. Gracias por acompañarme en este recorrido técnico."
+
+---
+
+## Guion 3: Video Corto para Redes Sociales (Formato Vertical)
+
+**Título:** ¡Tu huerto en tu celular! 🌿🇨🇴
+**Tono:** Rápido, enérgico, visual y con música en tendencia.
+**Formato:** Video vertical (9:16), ideal para Reels, TikTok o Shorts.
+
+**(0-3s) - Gancho inicial**
+*   **(Visual):** Una persona mira con frustración una planta marchita en su casa.
+*   **(Texto en pantalla grande y llamativo):** ¿SE TE MUEREN LAS PLANTAS?
+
+**(3-6s) - Presentación de la solución**
+*   **(Visual):** Transición rápida. La misma persona ahora sonríe mientras navega por la app "Cultiva Colombia" en su celular. Se ve la página de inicio.
+*   **(Texto en pantalla):** ¡Descubre CULTIVA COLOMBIA!
+
+**(6-11s) - Feature 1: Mapa Interactivo**
+*   **(Visual):** Grabación de pantalla del celular. Un dedo se desliza por el mapa interactivo y pulsa sobre un marcador (ej. maíz). Aparece el nombre.
+*   **(Voz en off rápida y enérgica):** "Descubre qué sembrar en tu región. ¡Nuestro mapa te lo dice!"
+*   **(Texto en pantalla):** MAPA INTELIGENTE 🗺️
+
+**(11-17s) - Feature 2: Detector con IA**
+*   **(Visual):** La persona le toma una foto a una hoja con su celular. La sube a la sección "Detectar con IA" de la app. Aparecen los resultados del análisis en pantalla.
+*   **(Voz en off):** "¿No sabes qué planta es o si está enferma? ¡Tómale una foto!"
+*   **(Texto en pantalla):** ANALIZA CON IA 🤖
+
+**(17-22s) - Feature 3: Guías de Cuidado**
+*   **(Visual):** Grabación de pantalla mostrando una "Ficha Técnica" de un cultivo, destacando con zooms rápidos los iconos de riego, sol y cuidados.
+*   **(Voz en off):** "Recibe guías de cuidado fáciles de entender. ¡Serás un experto!"
+*   **(Texto en pantalla):** GUÍAS DE CUIDADO 🌱
+
+**(22-25s) - Llamada a la Acción**
+*   **(Visual):** La persona ahora riega felizmente una planta sana y vibrante. Aparece el logo de "Cultiva Colombia" en grande.
+*   **(Voz en off):** "¡Transforma tu mano para las plantas! Es gratis."
+*   **(Texto en pantalla):** ¡Pruébala ya! Link en la bio.
