@@ -6,10 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Wind, FlaskConical, Bug } from 'lucide-react';
-import { getAuthenticatedUser } from '@/lib/firebase-admin';
-import { hasUserCrop } from '@/lib/user-service';
-import { SubmitButton } from '@/components/submit-button';
-import { addCropAction } from '@/lib/actions';
 
 
 export async function generateStaticParams() {
@@ -33,9 +29,6 @@ export default async function CropPage({ params }: { params: { slug: string } })
   if (!crop) {
     notFound();
   }
-
-  const user = await getAuthenticatedUser();
-  const userHasCrop = user ? await hasUserCrop(user.uid, crop.slug) : false;
 
   const requirements = [
     { icon: Droplets, label: "Riego", value: crop.requirements.watering },
@@ -65,22 +58,6 @@ export default async function CropPage({ params }: { params: { slug: string } })
               <CardContent>
                 <p className="text-lg">{crop.longDescription}</p>
                 <div className="mt-6 flex space-x-2">
-                  {user && (
-                    <form action={addCropAction}>
-                      <input type="hidden" name="slug" value={crop.slug} />
-                      <SubmitButton disabled={userHasCrop} pendingText="Añadiendo...">
-                        <Sprout className="mr-2 h-4 w-4" />
-                        {userHasCrop ? 'Cultivo en tu panel' : 'Añadir a mi dashboard'}
-                      </SubmitButton>
-                    </form>
-                  )}
-                  {!user && (
-                    <Button asChild>
-                      <a href="/login">
-                        <Sprout className="mr-2 h-4 w-4" /> Inicia sesión para añadir
-                      </a>
-                    </Button>
-                  )}
                   <Button variant="outline" asChild>
                     <a href={`/guias/${crop.slug}.pdf`} download>
                       <Download className="mr-2 h-4 w-4" /> Descargar PDF
