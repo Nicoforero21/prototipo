@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"components/map-loader.tsx -> @/components/interactive-colombia-map\":{\"id\":\"components/map-loader.tsx -> @/components/interactive-colombia-map\",\"files\":[\"static/css/_app-pages-browser_src_components_interactive-colombia-map_tsx.css\",\"static/chunks/_app-pages-browser_src_components_interactive-colombia-map_tsx.js\"]}}"
