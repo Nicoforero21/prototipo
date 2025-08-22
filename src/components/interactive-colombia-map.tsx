@@ -4,9 +4,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import colombiaTopoJSON from '@/lib/colombia-departments.json';
-import * as topojson from 'topojson-client';
-import type { Topology } from 'topojson-specification';
+import colombiaGeoJSON from '@/lib/colombia-departments.json';
 import { useToast } from '@/hooks/use-toast';
 
 // Corrige el problema del icono predeterminado en Leaflet con bundlers como Webpack
@@ -38,10 +36,6 @@ const cropsOnMap = [
   },
 ];
 
-const colombiaGeoJSON = topojson.feature(
-  colombiaTopoJSON as unknown as Topology,
-  colombiaTopoJSON.objects.COL_adm1
-);
 
 export function InteractiveColombiaMap() {
   const mapRef = useRef<L.Map | null>(null);
@@ -78,7 +72,7 @@ export function InteractiveColombiaMap() {
                 color: 'hsl(var(--accent-foreground))',
                 fillColor: 'hsl(var(--accent))',
               });
-              target.bindTooltip(feature.properties.NAME_1).openTooltip();
+              target.bindTooltip(feature.properties.NOMBRE_DPT).openTooltip();
             },
             mouseout: (e) => {
               geoJsonLayer.resetStyle(e.target);
@@ -87,7 +81,7 @@ export function InteractiveColombiaMap() {
             click: () => {
                  toast({
                     title: "Funcionalidad en desarrollo",
-                    description: `Próximamente podrás ver información detallada para el departamento de ${feature.properties.NAME_1}.`,
+                    description: `Próximamente podrás ver información detallada para el departamento de ${feature.properties.NOMBRE_DPT}.`,
                 })
             },
           });
