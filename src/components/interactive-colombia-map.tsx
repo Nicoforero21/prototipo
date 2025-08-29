@@ -34,6 +34,24 @@ const cropsOnMap = [
     name: 'Maíz',
     emoji: '🌽',
   },
+  {
+    slug: 'papa',
+    coordinates: [5.4, -73.0] as [number, number],
+    name: 'Papa',
+    emoji: '🥔',
+  },
+  {
+    slug: 'cafe',
+    coordinates: [4.8, -75.7] as [number, number],
+    name: 'Café',
+    emoji: '☕',
+  },
+  {
+    slug: 'banano',
+    coordinates: [10.5, -75.0] as [number, number],
+    name: 'Banano',
+    emoji: '🍌',
+  },
 ];
 
 
@@ -43,7 +61,6 @@ export function InteractiveColombiaMap() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Solo inicializa el mapa si el contenedor existe y el mapa no ha sido creado
     if (mapContainerRef.current && !mapRef.current) {
       const map = L.map(mapContainerRef.current, {
         center: [4.5, -74],
@@ -106,14 +123,13 @@ export function InteractiveColombiaMap() {
       mapRef.current = map;
     }
 
-    // Función de limpieza: se ejecuta cuando el componente se desmonta
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
       }
     };
-  }, [toast]); // Se ejecuta solo una vez al montar el componente
+  }, [toast]);
 
   return <div ref={mapContainerRef} style={{ height: '600px', width: '100%' }} className="rounded-lg bg-muted z-0" />;
 }
