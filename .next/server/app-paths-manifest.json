@@ -2,10 +2,10 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/login/page": "app/login/page.js",
   "/detectar/page": "app/detectar/page.js",
+  "/login/page": "app/login/page.js",
   "/page": "app/page.js",
-  "/recursos/page": "app/recursos/page.js",
   "/register/page": "app/register/page.js",
+  "/recursos/page": "app/recursos/page.js",
   "/cultivos/[slug]/page": "app/cultivos/[slug]/page.js"
 }
