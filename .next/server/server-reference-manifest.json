@@ -1,5 +1,1 @@
-{
-  "node": {},
-  "edge": {},
-  "encryptionKey": "Oawnh9bRGCjSpla7K13Gpw12IX+3PQlgmzO/sBp4VKM="
-}
+{"node":{"001a19d8ee2d0503174049b9f49dd7214a2184d75c":{"workers":{"app/dashboard/page":{"moduleId":"96851","async":false}},"layer":{"app/dashboard/page":"rsc"}},"60256bb57d567403cb0988f6dc4ff01c92b8437e7a":{"workers":{"app/detectar/page":{"moduleId":"82643","async":true}},"layer":{"app/detectar/page":"action-browser"}},"60eb751cc3431f10cba6c3e8f8be4b9c3dec180de9":{"workers":{"app/detectar/page":{"moduleId":"82643","async":true}},"layer":{"app/detectar/page":"action-browser"}},"00061f30038daeea386c1c6268b04c19b7c1e7d7bd":{"workers":{"app/register/page":{"moduleId":"49609","async":true}},"layer":{"app/register/page":"action-browser"}},"6000d7d1d04cc3584cf06f1e9747c2b0de75f4e4ec":{"workers":{"app/register/page":{"moduleId":"49609","async":true}},"layer":{"app/register/page":"action-browser"}}},"edge":{},"encryptionKey":"m8CKr6hCa3lk6P8j9riQoQMeFMXtpzyOi4oJ62AhGb0="}

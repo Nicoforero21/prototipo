@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, RulerHorizontal, Wind, FlaskConical, Bug } from 'lucide-react';
+import { CheckCircle2, Clock, Download, HeartPulse, Sprout, Droplets, Ruler, Wind, FlaskConical, Bug } from 'lucide-react';
 
 
 export async function generateStaticParams() {
@@ -33,7 +33,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
   const requirements = [
     { icon: Droplets, label: "Riego", value: crop.requirements.watering },
     { icon: Wind, label: "Clima", value: crop.requirements.climate },
-    { icon: RulerHorizontal, label: "Espacio", value: crop.requirements.space },
+    { icon: Ruler, label: "Espacio", value: crop.requirements.space },
     { icon: Bug, label: "Plagas Comunes", value: crop.requirements.pests },
     { icon: FlaskConical, label: "Fertilizantes", value: crop.requirements.fertilizers },
   ];
