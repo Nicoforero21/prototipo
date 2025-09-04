@@ -33,7 +33,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0b21hdG98ZW58MHx8fHwxNzUzMTk0NDg4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'tomato plant',
     difficulty: 'Media',
-    lifecycle: ['Germinación: 5 a 10 días.', 'Crecimiento vegetativo: 30 a 40 días.', 'Floración: a los 45-60 días.', 'Fructificación: desde los 70 días en adelante.'],
+    lifecycle: ['Germinación: 5 a 10 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Floración y cuajado de frutos: 25 a 35 días.', 'Maduración y cosecha: 20 a 30 días.'],
      requirements: {
       watering: 'Riego regular y profundo, especialmente durante la floración y fructificación. Evitar mojar las hojas.',
       climate: 'Clima cálido y soleado, necesita al menos 6 horas de sol directo (21-29°C).',
@@ -56,7 +56,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1634467524884-897d0af5e104?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYSVDMyVBRHp8ZW58MHx8fHwxNzUzMTk0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'corn field',
     difficulty: 'Difícil',
-    lifecycle: ['Germinación: 7 a 10 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Floración: 45 a 60 días.', 'Llenado de mazorca: 60 a 90 días.', 'Maduración y cosecha: 90 a 120 días.'],
+    lifecycle: ['Siembra y germinación: 4 a 10 días.', 'Crecimiento vegetativo (hojas): 50 a 60 días.', 'Floración (polinización): 7 a 10 días.', 'Llenado de grano: 30 a 40 días.', 'Maduración y cosecha: 15 a 25 días.'],
     requirements: {
       watering: 'Requiere mucha agua, especialmente durante la polinización y llenado de grano.',
       climate: 'Clima cálido y mucho sol. Sensible a las heladas.',
@@ -79,7 +79,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3RhdG98ZW58MHx8fHwxNzU2OTk5MzIyfDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'potato plant',
     difficulty: 'Media',
-    lifecycle: ['Siembra de tubérculos', 'Brotación (15-25 días)', 'Crecimiento vegetativo (30-50 días)', 'Tuberización (50-90 días)', 'Cosecha (100-140 días)'],
+    lifecycle: ['Germinación: 15 a 25 días.', 'Emergencia y desarrollo vegetativo: 20 a 40 días.', 'Formación de tubérculos: 40 a 60 días.', 'Maduración y cosecha: 90 a 150 días.'],
     requirements: {
       watering: 'Riego moderado. Mantener humedad sin encharcar. Suspender riego antes de la cosecha.',
       climate: 'Clima frío a templado (10-20°C). Sensible a heladas tardías.',
