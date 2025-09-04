@@ -122,7 +122,7 @@ export const mockCrops: Crop[] = [
     latinName: 'Musa paradisiaca',
     shortDescription: 'Fruta tropical energética y rica en potasio, cultivada en zonas cálidas.',
     longDescription: 'La planta de banano es una hierba gigante que produce racimos de fruta. Es un cultivo de rápido crecimiento en climas tropicales que requiere grandes cantidades de agua y nutrientes para ser productivo.',
-    imageUrl: 'https://images.unsplash.com/photo-1603986528776-aBE278735397?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYW5hbmElMjBwbGFudHxlbnwwfHx8fDE3NTMxOTQ2MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxiYW5hbmF8ZW58MHx8fHwxNzU2OTk5NDEzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'banana plant',
     difficulty: 'Media',
     lifecycle: ['Siembra de cormos o hijuelos', 'Crecimiento vegetativo (9-12 meses)', 'Floración y formación del racimo', 'Cosecha del racimo (3-4 meses después de floración)'],
