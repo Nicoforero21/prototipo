@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/detectar/page": "/detectar",
+  "/dashboard/page": "/dashboard",
+  "/login/page": "/login",
+  "/page": "/",
+  "/recursos/page": "/recursos",
+  "/register/page": "/register",
+  "/cultivos/[slug]/page": "/cultivos/[slug]"
+}
