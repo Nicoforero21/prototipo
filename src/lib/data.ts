@@ -10,7 +10,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1640958904159-51ae08bd3412?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsZXR0dWNlfGVufDB8fHx8MTc1MzE5NDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'lettuce vegetable',
     difficulty: 'Fácil',
-    lifecycle: ['Germinación: 4 a 7 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Formación de cabeza: 30 a 60 días.', 'Floración y producción de semillas: después de 70 días.'],
+    lifecycle: ['Germinación: 4 a 7 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Formación de cabeza: 30 a 60 días.', 'Cosecha: después de 60 días.'],
     requirements: {
       watering: 'Riego frecuente pero moderado, mantener el suelo húmedo.',
       climate: 'Clima templado, evitar calor extremo (15-20°C).',
@@ -33,7 +33,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0b21hdG98ZW58MHx8fHwxNzUzMTk0NDg4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'tomato plant',
     difficulty: 'Media',
-    lifecycle: ['Siembra', 'Germinación (6-14 días)', 'Crecimiento vegetativo y floración (40-60 días)', 'Fructificación y maduración (60-90 días)', 'Cosecha'],
+    lifecycle: ['Germinación: 5 a 10 días.', 'Crecimiento vegetativo: 30 a 40 días.', 'Floración: a los 45-60 días.', 'Fructificación: desde los 70 días en adelante.'],
      requirements: {
       watering: 'Riego regular y profundo, especialmente durante la floración y fructificación. Evitar mojar las hojas.',
       climate: 'Clima cálido y soleado, necesita al menos 6 horas de sol directo (21-29°C).',
