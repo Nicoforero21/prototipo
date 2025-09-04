@@ -102,7 +102,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb2ZmZWV8ZW58MHx8fHwxNzU2OTgxNDc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'coffee branch',
     difficulty: 'Difícil',
-    lifecycle: ['Siembra (almácigo)', 'Trasplante (6-12 meses)', 'Crecimiento (2-3 años)', 'Primera floración y cosecha (a partir del 3er año)', 'Producción continua'],
+    lifecycle: ['Germinación: 2 a 3 meses.', 'Crecimiento vegetativo: 6 a 12 meses.', 'Floración: alrededor de los 9 meses.', 'Fructificación: entre 6 y 9 meses después de la floración.', 'Primera cosecha: a los 2-3 años después de la siembra.'],
     requirements: {
       watering: 'Riego constante, especialmente en épocas secas. Buen drenaje es vital.',
       climate: 'Zonas montañosas subtropicales (1.200-1.800 msnm), con temperaturas de 18-24°C y sombra parcial.',
