@@ -10,7 +10,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1640958904159-51ae08bd3412?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsZXR0dWNlfGVufDB8fHx8MTc1MzE5NDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'lettuce vegetable',
     difficulty: 'Fácil',
-    lifecycle: ['Siembra', 'Germinación (5-10 días)', 'Crecimiento de hojas (30-40 días)', 'Cosecha'],
+    lifecycle: ['Germinación: 4 a 7 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Formación de cabeza: 30 a 60 días.', 'Floración y producción de semillas: después de 70 días.'],
     requirements: {
       watering: 'Riego frecuente pero moderado, mantener el suelo húmedo.',
       climate: 'Clima templado, evitar calor extremo (15-20°C).',
