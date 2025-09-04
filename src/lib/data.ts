@@ -56,7 +56,7 @@ export const mockCrops: Crop[] = [
     imageUrl: 'https://images.unsplash.com/photo-1634467524884-897d0af5e104?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYSVDMyVBRHp8ZW58MHx8fHwxNzUzMTk0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080',
     aiHint: 'corn field',
     difficulty: 'Difícil',
-    lifecycle: ['Siembra', 'Germinación (7-10 días)', 'Crecimiento rápido (30-60 días)', 'Polinización y formación de mazorca (60-80 días)', 'Cosecha (90-120 días)'],
+    lifecycle: ['Germinación: 7 a 10 días.', 'Crecimiento vegetativo: 20 a 30 días.', 'Floración: 45 a 60 días.', 'Llenado de mazorca: 60 a 90 días.', 'Maduración y cosecha: 90 a 120 días.'],
     requirements: {
       watering: 'Requiere mucha agua, especialmente durante la polinización y llenado de grano.',
       climate: 'Clima cálido y mucho sol. Sensible a las heladas.',
