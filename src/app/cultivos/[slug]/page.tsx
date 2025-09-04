@@ -59,7 +59,7 @@ export default async function CropPage({ params }: { params: { slug: string } })
                 <p className="text-lg">{crop.longDescription}</p>
                 <div className="mt-6 flex space-x-2">
                   <Button variant="outline" asChild>
-                    <a href={`/guias/${crop.slug}.pdf`} download>
+                    <a href={`/guias/${crop.slug}-colombia.pdf`} download>
                       <Download className="mr-2 h-4 w-4" /> Descargar PDF
                     </a>
                   </Button>
