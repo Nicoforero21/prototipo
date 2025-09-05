@@ -7,6 +7,7 @@ const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/detectar', label: 'Detectar con IA' },
   { href: '/recursos', label: 'Recursos' },
+  { href: '/glosario', label: 'Glosario' },
 ];
 
 export default async function Header() {
